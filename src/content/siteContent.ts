@@ -1,13 +1,3 @@
-// ============================================================================
-// Template Setup
-// ============================================================================
-
-const businessName = "Havstein Par 3";
-
-// ============================================================================
-// Shared Types
-// ============================================================================
-
 interface LinkContent {
   label: string;
   href: string;
@@ -24,10 +14,6 @@ interface ContactItemContent {
   value: string;
 }
 
-// ============================================================================
-// Hero
-// ============================================================================
-
 interface HeroStatusCard {
   title: string;
   status: string;
@@ -39,14 +25,11 @@ interface HeroContent {
   eyebrow: string;
   title: string;
   subtitle: string;
+  socialHref: string;
   statusCards: HeroStatusCard[];
   primaryCta: LinkContent;
   secondaryCta: LinkContent;
 }
-
-// ============================================================================
-// Reviews
-// ============================================================================
 
 interface ReviewCardContent {
   name: string;
@@ -64,10 +47,6 @@ interface ReviewsContent {
   linkHref: string;
   cards: ReviewCardContent[];
 }
-
-// ============================================================================
-// Play Or Train
-// ============================================================================
 
 interface PlayOrTrainGroup {
   title: string;
@@ -99,10 +78,6 @@ interface PlayOrTrainContent {
   cards: PlayOrTrainCard[];
 }
 
-// ============================================================================
-// Pricing
-// ============================================================================
-
 interface PricingCourseItem {
   label: string;
   sublabel: string;
@@ -110,25 +85,76 @@ interface PricingCourseItem {
 }
 
 interface PricingContent extends SectionHeaderContent {
-  course: {
+  play: {
     title: string;
     items: PricingCourseItem[];
     note: string;
-    paymentTitle: string;
-    paymentLines: string[];
-    fineNote: string;
   };
-  range: {
+  membership: {
     title: string;
-    price: string;
-    label: string;
-    note: string;
+    items: PricingCourseItem[];
+    infoTitle: string;
+    infoLines: string[];
   };
 }
 
-// ============================================================================
-// Contact
-// ============================================================================
+interface AboutCourseContent extends SectionHeaderContent {
+  introLabel: string;
+  body: string[];
+  pills: string[];
+  imageIndex: number;
+}
+
+interface FacilityFeatureCard {
+  label: string;
+  title: string;
+  intro: string;
+  bullets: string[];
+  icon: 'range' | 'clubhouse' | 'access';
+}
+
+interface FacilitiesContent extends SectionHeaderContent {
+  cards: FacilityFeatureCard[];
+}
+
+interface NewsItemContent {
+  badge: string;
+  dateLabel: string;
+  title: string;
+  text: string;
+  linkLabel: string;
+  linkHref: string;
+  imageIndex: number;
+}
+
+interface NewsContent extends SectionHeaderContent {
+  items: NewsItemContent[];
+}
+
+interface GalleryContent {
+  title: string;
+  description: string;
+  featuredCaption: string;
+}
+
+interface BookingContent {
+  title: string;
+  description: string;
+  ctaLabel: string;
+  steps: {
+    label: string;
+    detail: string;
+  }[];
+  notes: {
+    title: string;
+    text: string;
+  }[];
+}
+
+interface PartnersContent {
+  title: string;
+  description: string;
+}
 
 interface ContactContent extends SectionHeaderContent {
   area: ContactItemContent;
@@ -138,274 +164,403 @@ interface ContactContent extends SectionHeaderContent {
     eyebrow: string;
     title: string;
     description: string;
-    ctaLabel: LinkContent["label"];
-    ctaHref: LinkContent["href"];
+    ctaLabel: LinkContent['label'];
+    ctaHref: LinkContent['href'];
   };
 }
 
-// ============================================================================
-// Root Content Object
-// ============================================================================
+interface FooterContent {
+  ctaLabel: string;
+  ctaHref: string;
+  copyright: string;
+  description: string;
+}
 
 interface SiteContent {
   businessName: string;
   hero: HeroContent;
   reviews: ReviewsContent;
+  aboutCourse: AboutCourseContent;
+  facilities: FacilitiesContent;
+  news: NewsContent;
   playOrTrain: PlayOrTrainContent;
   pricing: PricingContent;
+  gallery: GalleryContent;
+  booking: BookingContent;
+  partners: PartnersContent;
   contact: ContactContent;
+  footer: FooterContent;
 }
 
-// ============================================================================
-// Site Content
-// ============================================================================
-
 export const siteContent: SiteContent = {
-  // Global business identity
-  businessName,
-
-  // Hero section
+  businessName: 'Smøla Golfklubb',
   hero: {
-    eyebrow: "PAR 3-BANE OG DRIVING RANGE",
-    title: "Golf rett utenfor Trondheim",
-    subtitle: "Spill en rask runde eller ta en treningsøkt på rangen.",
+    eyebrow: 'Smøla Golfklubb',
+    title: 'Golf ytterst i havgapet',
+    subtitle: 'Spill golf i vakre omgivelser på Smøla',
+    socialHref: 'https://www.facebook.com/groups/181331778221/',
     statusCards: [
       {
-        title: "Golfbanen",
-        status: "open",
-        statusLabel: "Åpen for spill",
-        detail: "Hver dag 09:00–20:00",
-      },
-      {
-        title: "Driving range",
-        status: "open",
-        statusLabel: "Åpen for drop-in",
-        detail: "Hver dag 07:00–22:00",
+        title: 'Golfbanen',
+        status: 'open',
+        statusLabel: 'Åpen for spill',
+        detail: '9 hull i Dyrnesdalen',
       },
     ],
     primaryCta: {
-      label: "Book starttid",
-      href: "#",
+      label: 'Se info',
+      href: '#practical',
     },
     secondaryCta: {
-      label: "Se praktisk info",
-      href: "#",
+      label: 'Bli medlem',
+      href: '#pricing',
     },
   },
-
-  // Reviews section
   reviews: {
-    title: `Hva folk sier om ${businessName}`,
-    subtitle: "Et utvalg Google-anmeldelser fra spillere og besøkende.",
-    summaryLabel: "Google reviews",
-    summaryScore: "4,1/5",
-    linkLabel: "Se alle Google-anmeldelser",
-    linkHref: "#",
+    title: 'Hva folk sier om Smøla Golfklubb',
+    subtitle: '',
+    summaryLabel: 'Tripadvisor',
+    summaryScore: '5,0/5',
+    linkLabel: 'Se anmeldelser',
+    linkHref: 'https://www.tripadvisor.com/Attraction_Review-g1183551-d23532355-Reviews-Smola_Golfklubb-Smola_More_og_Romsdal_Western_Norway.html',
     cards: [
       {
-        name: "Øystein Aas",
+        name: 'Bob',
         rating: 5,
-        quote: "Relativt billig, sentrumsnært og med en fantastisk utsikt!",
-        sourceLabel: "Google",
+        quote: 'Easy golf course to play with good prices and a warm welcome.',
+        sourceLabel: 'Tripadvisor',
       },
       {
-        name: "Peter Jiro Grieg Toyomasu",
+        name: 'Joerg K',
         rating: 5,
-        quote: "God range og bane for prisen! Tilgjengelig og enkelt.",
-        sourceLabel: "Google",
-      },
-      {
-        name: "Mads Iversen",
-        rating: 5,
-        quote: "Fantastisk personale, fin green og topp stemning.",
-        sourceLabel: "Google",
-      },
-      {
-        name: "Rigmor Bøkseth Monge",
-        rating: 5,
-        quote: "Kjempefint der nå, ut å spill golf folkens.",
-        sourceLabel: "Google",
-      },
-      {
-        name: "Wenche Sivertsen",
-        rating: 5,
-        quote:
-          "Fin plass for golf med flott utsikt over Trondheim. 9 hulls bane som tar ca 1 time.",
-        sourceLabel: "Google",
-      },
-      {
-        name: "Reidar Angell Hansen",
-        rating: 4,
-        quote: "Fin utsikt herfra på nyttårsaften, ellers en vakker plass.",
-        sourceLabel: "Google",
+        quote: 'A fantastic golf course in the middle of nature. I can only recommend it.',
+        sourceLabel: 'Tripadvisor',
       },
     ],
   },
-
-  // Practical play / training section
+  aboutCourse: {
+    sectionLabel: 'Smøla Golfklubb',
+    title: 'Om banen',
+    subtitle: 'Banen i Dyrnesdalen kombinerer natur, lune forhold og en kompakt 9-hullsopplevelse.',
+    introLabel: 'Ytterst i havgapet',
+    body: [
+      'Banen i Dyrnesdalen byr på en variert og naturskjønn 9-hulls opplevelse, omgitt av skog, åpne partier og rolige omgivelser.',
+      'Smøla Golfklubb kombinerer kystnær beliggenhet med gode spilleforhold, der banen ligger beskyttet i terrenget uten å miste følelsen av å være ytterst i havgapet.',
+      'Alle hull har både rødt og gult utslag, og det er benker ved hvert utslag. Banen er oversiktlig og lett å spille, samtidig som den gir nok utfordring til å gjøre runden interessant for både medlemmer og gjester.',
+    ],
+    pills: [
+      '9 hull i Dyrnesdalen',
+      'Beskyttet mot vær og vind',
+      'Rødt og gult utslag',
+      'Benker ved alle utslag',
+    ],
+    imageIndex: 1,
+  },
+  facilities: {
+    sectionLabel: 'Smøla Golfklubb',
+    title: 'Fasiliteter på anlegget',
+    subtitle: 'Praktiske tilbud ved banen gjør det enklere å komme i gang, trene og bruke anlegget gjennom sesongen.',
+    cards: [
+      {
+        label: 'Trening',
+        title: 'Driving range og kurs',
+        intro: 'Driving range ligger ved anlegget og brukes både til egentrening og kursaktivitet gjennom sommeren.',
+        bullets: [
+          'Driving range ved banen',
+          'Kurs holdes ved nok påmeldte',
+          'Klubben tar imot interesse for nye kurs',
+        ],
+        icon: 'range',
+      },
+      {
+        label: 'Service',
+        title: 'Greenfeebu, kiosk og klubbtilbud',
+        intro: 'Greenfeebu og kiosk er samlet rundt anlegget, slik at praktisk informasjon og enkel servering er tett på banen.',
+        bullets: [
+          'Stor garasje fungerer som greenfeebu',
+          'Kiosken åpner under aktivitet og arrangementer',
+          'Banekart og slopetabell finnes ved anlegget',
+        ],
+        icon: 'clubhouse',
+      },
+      {
+        label: 'Tilgjengelighet',
+        title: 'Utstyr og enkel tilgang',
+        intro: 'Klubben gjør det lettere å komme i gang med både utleie, praktisk utstyr og løsninger for spillere med ulike behov.',
+        bullets: [
+          'Golfsett kan leies av klubben',
+          'Golfbil kan brukes ved nedsatt førlighet',
+          'Praktisk informasjon er tilgjengelig direkte på stedet',
+        ],
+        icon: 'access',
+      },
+    ],
+  },
+  news: {
+    sectionLabel: 'Smøla Golfklubb',
+    title: 'Siste nytt',
+    subtitle: 'Siste nytt fra klubben, turneringer og aktivitet på banen.',
+    items: [
+      {
+        badge: 'Klubbaktivitet',
+        dateLabel: 'Fast gjennom sesongen',
+        title: 'Seriespill og faste spillerunder',
+        text: 'Det arrangeres seriespill hver søndag kl. 12, mens sosiale runder går mandag og torsdag kl. 18.',
+        linkLabel: 'Se praktisk spillinfo',
+        linkHref: '#practical',
+        imageIndex: 0,
+      },
+      {
+        badge: 'Turnering',
+        dateLabel: 'Første søndag i måneden',
+        title: 'Åpen turnering hver måned',
+        text: 'Første søndag hver måned arrangeres åpen turnering kl. 12 for medlemmer og gjester.',
+        linkLabel: 'Les mer om klubblivet',
+        linkHref: '#booking',
+        imageIndex: 1,
+      },
+      {
+        badge: 'Miljø',
+        dateLabel: 'Onsdag kl. 11',
+        title: 'Seniorgolf og klubbmiljø',
+        text: 'Senior- og formiddagsgolf spilles onsdager kl. 11, og klubben holder et aktivt miljø gjennom sesongen.',
+        linkLabel: 'Se klubbtilbud',
+        linkHref: '#booking',
+        imageIndex: 3,
+      },
+    ],
+  },
   playOrTrain: {
-    sectionLabel: businessName,
-    title: `Spill eller tren – enkelt på ${businessName}`,
+    sectionLabel: 'Smøla Golfklubb',
+    title: 'Spill og aktiviteter',
     cards: [
       {
-        eyebrow: "For deg som vil spille",
-        title: "Golfbanen",
-        status: "open",
-        statusLabel: "Åpen",
-        hours: "Hver dag 09:00–20:00",
+        eyebrow: 'For deg som vil spille',
+        title: 'Golfbanen',
+        status: 'open',
+        statusLabel: 'Åpen',
+        hours: 'Banen er åpen hver dag',
         greenkeeperComment: {
-          title: "Kommentar fra greenkeeper",
-          text: "Ingen kommentar foreløpig.",
+          title: 'Praktisk spillinfo',
+          text: 'Banen er lett å bruke for både medlemmer og gjester, med tydelig informasjon ved anlegget og en oversiktlig 9-hullsrunde.',
         },
         groups: [
           {
-            title: "Booking og spill",
+            title: 'Spill og runde',
             points: [
-              "Booking anbefales ved bra vær",
-              "Drop-in mulig ved ledig kapasitet",
-              "Kø for drop-in ved utslag 1 (venstre side)",
-              "Maks 4 spillere per starttid",
-              "Møt opp 10 min før start",
+              '9-hulls golfbane med slope-godkjenning fra 2005',
+              'Skogs- og parkpreg gjennom hele runden',
+              'Banekart og slopetabell finnes ved anlegget',
             ],
           },
           {
-            title: "Baneregler",
+            title: 'Praktisk på banen',
             points: [
-              "9 hull par 3-bane",
-              "Bruk greengaffel og reparer merker",
-              "Legg tilbake torv",
-              "Spill hensynsfullt ved våt bane",
-              "Hold tempo (løft ball etter 5 slag)",
-            ],
-          },
-          {
-            title: "Under 18 år",
-            intro:
-              "Vi har utfordringer med unge spillere som ikke følger regler. Derfor må alle under 18 registreres før spill.",
-            points: [
-              "Runde må bestilles via nettside eller drop-in",
-              "Før start: send SMS til 91172405",
-              "Oppgi navn og starttid (maks 4 spillere)",
-              "Oppgi hvordan det er betalt",
-            ],
-            example: "Eksempel: 12:30 Per, Hans, Nils – vipps fra Per 160 kr",
-          },
-          {
-            title: "Turister",
-            points: [
-              "Ring +47 91172405 før spill",
-              "Mulighet for å leie utstyr",
+              'Benker ved alle utslag',
+              'Rødt og gult utslag på alle hull',
+              'Passer både medlemmer og gjestespillere',
+              'Naturskjønn og lun bane i Dyrnesdalen',
             ],
           },
         ],
         cta: {
-          label: "Book starttid",
-          href: "#booking",
+          label: 'Se baneinfo',
+          href: '#booking',
         },
-        variant: "course",
+        variant: 'course',
       },
       {
-        eyebrow: "For deg som vil trene",
-        title: "Driving range",
-        status: "open",
-        statusLabel: "Åpen",
-        hours: "Hver dag 07:00–22:00",
+        eyebrow: 'For deg som vil delta',
+        title: 'Klubbtilbud og aktivitet',
+        status: 'open',
+        statusLabel: 'Aktivt klubbmiljø',
+        hours: 'Turneringer, sosiale runder og medlemstilbud',
         greenkeeperComment: {
-          title: "Kommentar fra greenkeeper",
-          text: "Noe begrenset bruk da baller samles med traktor. Ikke slå når traktor kjører.",
-          warning: "Knust glass = kr 15.000,-!",
+          title: 'Praktisk info',
+          text: 'Oversikt over spill, turneringer og tilbud gjennom sesongen.',
         },
         groups: [
           {
-            title: "Bruk",
+            title: 'Ukentlig aktivitet',
             points: [
-              "30 baller = 28 kr (liten bøtte)",
-              "Stor bøtte = 2 × 30 baller",
+              'Seriespill hver søndag kl. 12',
+              'Åpen turnering første søndag hver måned kl. 12',
+              'Sosiale runder mandag og torsdag kl. 18',
+              'Senior- og formiddagsgolf onsdag kl. 11',
             ],
           },
           {
-            title: "Regler",
+            title: 'Tilbud ved klubben',
             points: [
-              "Driver er forbudt for herrespillere",
-              "Tillatt: jern, hybrider og fairway-wooder",
-              "Ingen lengdebegrensning på slag med wooder og jern",
+              'Kurs arrangeres ved nok påmeldte',
+              'Klubben leier ut golfsett',
+              'Medlemmer får Norsk Golf tilsendt ca. 8 ganger i året',
+              'Medlemmer kan møte på årsmøtet',
             ],
-            note:
-              "Unntak: gjelder ikke damespillere, barn (< ca. 13 år) og eldre herrespillere med slaglengde ca. 170–180 m",
+          },
+          {
+            title: 'Medlemsinfo',
+            points: [
+              'Klubben sender løpende medlemsinformasjon gjennom sesongen',
+            ],
           },
         ],
         cta: {
-          label: "Se range-priser",
-          href: "#pricing",
+          label: 'Se klubbtilbud',
+          href: '#booking',
         },
-        variant: "range",
+        variant: 'range',
       },
     ],
   },
-
-  // Pricing section
   pricing: {
-    sectionLabel: businessName,
-    title: "Priser for spill og trening",
-    subtitle: "Enkle priser for banen og rangen, med betaling samlet på ett sted.",
-    course: {
-      title: "Golfbanen",
+    sectionLabel: 'Smøla Golfklubb',
+    title: 'Priser og medlemskap',
+    subtitle: '',
+    play: {
+      title: 'Greenfee og spill',
       items: [
         {
-          label: "Voksen",
-          sublabel: "Runde 2: 50 kr",
-          price: "100 kr",
+          label: 'Senior',
+          sublabel: 'Greenfee per dag',
+          price: '300,-',
         },
         {
-          label: "Ungdom / student",
-          sublabel: "Runde 2: 40 kr",
-          price: "80 kr",
+          label: 'Junior',
+          sublabel: 'Greenfee per dag',
+          price: '100,-',
         },
         {
-          label: "Barn (t.o.m. 12 år)",
-          sublabel: "Runde 2: 30 kr",
-          price: "60 kr",
+          label: 'Samarbeidende klubb, senior',
+          sublabel: 'Greenfee per dag',
+          price: '250,-',
+        },
+        {
+          label: 'Samarbeidende klubb, junior',
+          sublabel: 'Greenfee per dag',
+          price: '0,-',
+        },
+        {
+          label: 'Klubbmedlem',
+          sublabel: 'Greenfee per dag',
+          price: '100,-',
         },
       ],
-      note: "Ungdom t.o.m. 20 år • Student t.o.m. 28 år",
-      paymentTitle: "Betaling",
-      paymentLines: [
-        "Vipps: 89485",
-        "Får du ikke brukt Vipps? Ring +47 91172405",
-      ],
-      fineNote: "Manglende betaling kan føre til gebyr på kr 100 eller bortvisning.",
+      note: 'Prislisten er basert på klubbens oppgitte satser.',
     },
-    range: {
-      title: "Driving range",
-      price: "28 kr",
-      label: "Liten bøtte (30 baller)",
-      note: "Drop-in, ingen booking",
+    membership: {
+      title: 'Medlemskap',
+      items: [
+        {
+          label: 'Familie',
+          sublabel: '2 voksne + barn under 18 år',
+          price: '4.500,-',
+        },
+        {
+          label: 'Medlem',
+          sublabel: 'Ordinært medlemskap',
+          price: '1.500,-',
+        },
+        {
+          label: 'Ektefelle / samboer',
+          sublabel: 'Redusert sats',
+          price: '1.000,-',
+        },
+        {
+          label: 'Senior',
+          sublabel: 'Pensjonistmedlemskap',
+          price: '1.000,-',
+        },
+        {
+          label: 'Junior',
+          sublabel: 'Til og med 18 år',
+          price: '500,-',
+        },
+        {
+          label: 'Støttemedlem',
+          sublabel: 'Støtter klubben uten spillerett',
+          price: '200,-',
+        },
+      ],
+      infoTitle: 'Om medlemskap',
+      infoLines: [
+        'Introduksjonskurs kreves for golfkort og spillerett.',
+        'Spilleavgift kommer i tillegg der dette er aktuelt.',
+        'Junior har spilleavgift 0,- til og med året de fyller 18 år.',
+        'Medlemmer får løpende informasjon fra klubben gjennom sesongen.',
+      ],
     },
   },
-
-  // Contact section
+  gallery: {
+    title: 'Fra anlegget',
+    description: 'Noen glimt fra banen, naturen rundt og banekartet på Smøla Golfklubb.',
+    featuredCaption: 'Se flere bilder fra anlegget',
+  },
+  booking: {
+    title: 'Slik fungerer det',
+    description: 'Det skal være enkelt å bruke anlegget, enten du kommer for en runde, vil bli medlem eller ønsker å prøve golf for første gang.',
+    ctaLabel: 'Ta kontakt',
+    steps: [
+      {
+        label: 'Skal du spille banen?',
+        detail: 'Banen er åpen hver dag. Se greenfee og medlemspriser før du drar, og bruk greenfeebua ved anlegget for praktisk informasjon.',
+      },
+      {
+        label: 'Vil du lære eller trene?',
+        detail: 'Klubben arrangerer kurs i løpet av sommeren ved nok påmeldte og har både driving range og utleie av golfsett.',
+      },
+      {
+        label: 'Vil du bli med i miljøet?',
+        detail: 'Det er faste sosiale runder, seniorgolf, seriespill og åpne turneringer gjennom sesongen.',
+      },
+    ],
+    notes: [
+      {
+        title: 'Før du kommer',
+        text: 'Banen ligger i Dyrnesdalen på vestsiden av Smøla og er kjent for å være beskyttet mot vær og vind.',
+      },
+      {
+        title: 'Banen og anlegget',
+        text: 'Alle hull har både rødt og gult utslag, og det finnes benker ved alle utslag. Banekart og slopetabell er tilgjengelig ved anlegget.',
+      },
+      {
+        title: 'Utstyr og service',
+        text: 'Klubben kan leie ut golfsett, og golfbil kan brukes av spillere med nedsatt førlighet. Kiosken holder åpent under arrangementer.',
+      },
+    ],
+  },
+  partners: {
+    title: 'Våre partnere',
+    description: 'Smøla Golfklubb samarbeider med lokale og regionale aktører som bidrar til aktivitet og drift rundt klubben.',
+  },
   contact: {
-    sectionLabel: businessName,
-    title: "Kontakt og beliggenhet",
-    subtitle: "Kort vei ut fra byen, enkel adkomst og lav terskel for å ta turen innom.",
+    sectionLabel: 'Smøla Golfklubb',
+    title: 'Kontakt og beliggenhet',
+    subtitle: 'Dyrnes på Smøla, med kort vei ut til en naturskjønn bane ytterst i havgapet.',
     area: {
-      label: "Område",
-      value: `${businessName}, Trondheim`,
+      label: 'Område',
+      value: 'Dyrnes, Smøla',
     },
     phone: {
-      label: "Telefon",
-      value: "+47 72 82 40 00",
+      label: 'Telefon',
+      value: '+47 413 14 214',
     },
     email: {
-      label: "E-post",
-      value: "post@havsteinpar3.no",
+      label: 'E-post',
+      value: 'post@smolagolfklubb.no',
     },
     mapCard: {
-      eyebrow: `${businessName}, Trondheim`,
-      title: `${businessName}, Trondheim`,
-      description: "Kort vei fra sentrum, med enkel adkomst for bil, buss og sykkel.",
-      ctaLabel: "Åpne i Google Maps",
-      ctaHref: "#",
+      eyebrow: 'Smøla / Dyrnes',
+      title: 'Finn veien til banen',
+      description: 'Smøla Golfklubb ligger i Dyrnesdalen på Smøla, i lune omgivelser med enkel adkomst til anlegget.',
+      ctaLabel: 'Åpne i Google Maps',
+      ctaHref: 'https://www.google.com/maps/search/?api=1&query=Dyrnes%2C+Sm%C3%B8la%2C+Norway',
     },
+  },
+  footer: {
+    ctaLabel: 'Se priser og info',
+    ctaHref: '#pricing',
+    copyright: '© 2026 Smøla Golfklubb',
+    description: '9-hulls golfbane og klubbmiljø i Dyrnes på Smøla.',
   },
 };

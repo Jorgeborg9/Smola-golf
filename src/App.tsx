@@ -3,76 +3,102 @@ import { SectionHeading } from './components/SectionHeading';
 import { PartnerLogoCard } from './components/PartnerLogoCard';
 import { ReviewCard } from './components/ReviewCard';
 import { siteContent } from './content/siteContent';
-import heroImage from './assets/images/par3hero.jpg';
-import par3Logo from './assets/images/Par3logo.png';
-import admentoLogo from './assets/images/admento logo web.jpg';
-import cafeDublinLogo from './assets/images/CafeDublin-skilt(121x76)web.jpg';
-import kLundLogo from './assets/images/k_lund1.jpg';
-import vaernessLogo from './assets/images/vaerness4.jpg';
-import courseImageOne from './assets/images/sigridbane2.jpg';
-import courseImageTwo from './assets/images/trondheimpar3golf2016b.jpg';
-import courseImageThree from './assets/images/Trondheim par3golf range.jpg';
-import courseImageFour from './assets/images/trondheimpar3golf2016c.jpg';
-import courseImageFive from './assets/images/trondheim par3golf hull 8b.jpg';
-
-const steps = [
-  {
-    label: 'Skal du spille banen?',
-    detail: 'Book starttid på forhånd hvis du vil være sikker på plass. Drop-in går fint når det er ledig.',
-  },
-  {
-    label: 'Skal du bare trene?',
-    detail: 'Driving rangen brukes uten booking. Kjøp baller i automaten og gå rett ut på utslagsmattene.',
-  },
-  {
-    label: 'Trenger du utstyr?',
-    detail: 'Vi har enkel kølleutleie og det viktigste du trenger for en spontan tur innom.',
-  },
-];
+import heroImage from './assets/images/Hero.jpg';
+import clubLogo from './assets/images/Smola logo.png';
+import courseMapImage from './assets/images/Banekart smola.png';
+import mapImage from './assets/images/Map.png';
+import courseImageOne from './assets/images/Course-1.png';
+import courseImageTwo from './assets/images/Course-2.png';
+import courseImageThree from './assets/images/Course-3.png';
+import courseImageFour from './assets/images/Course-4.png';
+import courseImageFive from './assets/images/Course-5.png';
+import sparebankLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.00.png';
+import statkraftLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.06.png';
+import holbergLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.10.png';
+import bautaLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.19.png';
+import boerietLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.24.png';
+import storyLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.26.png';
+import holmLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.31.png';
+import bettenLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.36.png';
+import einesLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.39.png';
+import promekLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.45.png';
+import smolaOppdrettLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.52.png';
 
 const gallery = [
   {
     src: courseImageOne,
-    alt: `Nærspillområde på ${siteContent.businessName} med green og flagg`,
+    alt: `Golfbane og landskap ved ${siteContent.businessName}`,
   },
   {
     src: courseImageTwo,
-    alt: `Oversiktsbilde fra par 3-banen på ${siteContent.businessName}`,
+    alt: `Utsikt fra banen i Dyrnesdalen på ${siteContent.businessName}`,
   },
   {
     src: courseImageThree,
-    alt: `Driving rangen på ${siteContent.businessName}`,
+    alt: `Spillområde på ${siteContent.businessName}`,
   },
   {
     src: courseImageFour,
-    alt: `Banemiljø på ${siteContent.businessName} i sommersesong`,
+    alt: `Fairway og natur ved ${siteContent.businessName}`,
   },
   {
     src: courseImageFive,
-    alt: `Hullområde på ${siteContent.businessName}`,
+    alt: `Golfmiljø ytterst i havgapet på ${siteContent.businessName}`,
+  },
+  {
+    src: courseMapImage,
+    alt: `Banekart for ${siteContent.businessName}`,
   },
 ];
 
-const arrivalNotes = [
-  {
-    title: 'Før du kommer',
-    text: 'Banestatus oppdateres fortløpende ved regn og tidlig vår. Sjekk åpningstider før du drar hvis været er ustabilt.',
-  },
-  {
-    title: 'Parkering og ankomst',
-    text: 'Parkering finnes ved anlegget. Kommer du med buss eller sykkel er det kort vei siste stykket inn.',
-  },
-  {
-    title: 'For grupper',
-    text: 'Bedrifter, vennegjenger og mindre arrangementer kan ta kontakt for samlet booking av bane og trening.',
-  },
+const newsImages = [
+  courseImageOne,
+  courseImageTwo,
+  courseImageThree,
+  courseImageFour,
+  courseImageFive,
 ];
+
+function FacilityIcon({ icon }: { icon: 'range' | 'clubhouse' | 'access' }) {
+  if (icon === 'range') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 19h14" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="M8 19V7.2a1.2 1.2 0 0 1 1.9-1l4.7 3.4a1.2 1.2 0 0 1 0 1.95L8 16.2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (icon === 'clubhouse') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m4 11.2 8-6.2 8 6.2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M6 10.7V19h12v-8.3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M10 19v-4.8h4V19" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M12 8.8v9.7M8.3 12.1l3.7 2.2 3.7-2.2M9.6 19h4.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 const partners = [
-  { name: 'Admento', logo: admentoLogo },
-  { name: 'Cafe Dublin', logo: cafeDublinLogo },
-  { name: 'K Lund', logo: kLundLogo },
-  { name: 'Værness', logo: vaernessLogo },
+  { name: 'SpareBank 1 Nordmøre', logo: sparebankLogo },
+  { name: 'Statkraft', logo: statkraftLogo },
+  { name: 'Holberg Shipping', logo: holbergLogo },
+  { name: 'Bauta Group', logo: bautaLogo },
+  { name: 'Bøteriet', logo: boerietLogo },
+  { name: 'Story Mote', logo: storyLogo },
+  { name: 'Brødrene Holm', logo: holmLogo },
+  { name: 'Betten Regnskap', logo: bettenLogo },
+  { name: 'Eines AS', logo: einesLogo },
+  { name: 'Promek', logo: promekLogo },
+  { name: 'Smøla Oppdrettservice AS', logo: smolaOppdrettLogo },
 ];
 
 export default function App() {
@@ -127,16 +153,13 @@ export default function App() {
   return (
     <div className="page-shell">
       <header className="hero">
-        <div
-          className="hero__media"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        />
+        <div className="hero__media" style={{ backgroundImage: `url(${heroImage})` }} />
         <div className="container hero__inner">
           <div className="hero-bar" aria-label="Toppnavigasjon">
             <a className="hero-bar__brand" href="/">
-              <img src={par3Logo} alt={businessName} />
+              <img src={clubLogo} alt={businessName} />
             </a>
-            <a className="hero-bar__link" href="#">
+            <a className="hero-bar__link" href={siteContent.hero.socialHref}>
               <span className="sr-only">Facebook</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -162,33 +185,19 @@ export default function App() {
             </div>
 
             <div className="hero__facility-grid">
-              <article className="hero-teaser hero-teaser--course">
-                <p className="hero-teaser__label">{siteContent.hero.statusCards[0].title}</p>
-                <div className="hero-teaser__status-row">
-                  <span
-                    className="facility-card__status-dot facility-card__status-dot--open"
-                    aria-hidden="true"
-                  />
-                  <p className="hero-teaser__status">
-                    {siteContent.hero.statusCards[0].statusLabel}
-                  </p>
-                </div>
-                <p className="hero-teaser__detail">{siteContent.hero.statusCards[0].detail}</p>
-              </article>
-
-              <article className="hero-teaser hero-teaser--range">
-                <p className="hero-teaser__label">{siteContent.hero.statusCards[1].title}</p>
-                <div className="hero-teaser__status-row">
-                  <span
-                    className="facility-card__status-dot facility-card__status-dot--open"
-                    aria-hidden="true"
-                  />
-                  <p className="hero-teaser__status">
-                    {siteContent.hero.statusCards[1].statusLabel}
-                  </p>
-                </div>
-                <p className="hero-teaser__detail">{siteContent.hero.statusCards[1].detail}</p>
-              </article>
+              {siteContent.hero.statusCards.map((card) => (
+                <article key={card.title} className="hero-teaser hero-teaser--course">
+                  <p className="hero-teaser__label">{card.title}</p>
+                  <div className="hero-teaser__status-row">
+                    <span
+                      className={`facility-card__status-dot facility-card__status-dot--${card.status}`}
+                      aria-hidden="true"
+                    />
+                    <p className="hero-teaser__status">{card.statusLabel}</p>
+                  </div>
+                  <p className="hero-teaser__detail">{card.detail}</p>
+                </article>
+              ))}
             </div>
           </div>
         </div>
@@ -203,7 +212,7 @@ export default function App() {
                 description={siteContent.reviews.subtitle}
               />
               <div className="reviews-section__meta">
-                <div className="reviews-summary" aria-label="Google reviews sammendrag">
+                <div className="reviews-summary" aria-label="Anmeldelser sammendrag">
                   <p className="reviews-summary__label">{siteContent.reviews.summaryLabel}</p>
                   <p className="reviews-summary__score">{siteContent.reviews.summaryScore}</p>
                 </div>
@@ -213,7 +222,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="reviews-strip" aria-label="Google-anmeldelser" ref={reviewsStripRef}>
+            <div className="reviews-strip" aria-label="Anmeldelser" ref={reviewsStripRef}>
               {siteContent.reviews.cards.map((review) => (
                 <ReviewCard
                   key={`${review.name}-${review.quote}`}
@@ -222,6 +231,101 @@ export default function App() {
                   name={review.name}
                   sourceLabel={review.sourceLabel}
                 />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section--compact about-section">
+          <div className="container">
+            <div className="section-heading">
+              <p className="section-label">{siteContent.aboutCourse.sectionLabel}</p>
+            </div>
+            <div className="about-split">
+              <article className="content-card about-panel">
+                <div className="about-panel__content">
+                  <h3 className="about-panel__title">{siteContent.aboutCourse.title}</h3>
+                  <p className="about-panel__intro">{siteContent.aboutCourse.subtitle}</p>
+                </div>
+                <div className="about-panel__copy">
+                  {siteContent.aboutCourse.body.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+                <div className="about-pills">
+                  {siteContent.aboutCourse.pills.map((pill) => (
+                    <span key={pill} className="about-pill">
+                      {pill}
+                    </span>
+                  ))}
+                </div>
+              </article>
+
+              <article className="image-block image-block--tall about-image-card">
+                <img
+                  src={newsImages[siteContent.aboutCourse.imageIndex]}
+                  alt={siteContent.aboutCourse.title}
+                />
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="section section--compact">
+          <div className="container">
+            <SectionHeading
+              title={siteContent.facilities.title}
+              description={siteContent.facilities.subtitle}
+            />
+            <div className="facility-feature-grid">
+              {siteContent.facilities.cards.map((card) => (
+                <article key={card.title} className="content-card facility-feature-card">
+                  <div className="facility-feature-card__top">
+                    <span className="facility-feature-card__icon">
+                      <FacilityIcon icon={card.icon} />
+                    </span>
+                    <span className="facility-feature-card__chip">{card.label}</span>
+                  </div>
+                  <div className="facility-feature-card__content">
+                    <h3 className="facility-feature-card__title">{card.title}</h3>
+                    <p className="facility-feature-card__intro">{card.intro}</p>
+                  </div>
+                  <div className="facility-feature-card__divider" />
+                  <ul className="facility-feature-card__list">
+                    {card.bullets.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section--compact news-section">
+          <div className="container">
+            <SectionHeading
+              title={siteContent.news.title}
+              description={siteContent.news.subtitle}
+            />
+            <div className="news-grid">
+              {siteContent.news.items.map((item) => (
+                <article key={item.title} className="content-card news-card">
+                  <div className="news-card__image">
+                    <img src={newsImages[item.imageIndex]} alt={item.title} />
+                  </div>
+                  <div className="news-card__body">
+                    <div className="news-card__meta">
+                      <span className="news-card__badge">{item.badge}</span>
+                      <span className="news-card__date">{item.dateLabel}</span>
+                    </div>
+                    <p className="news-card__title">{item.title}</p>
+                    <p className="news-card__text">{item.text}</p>
+                    <a className="news-card__link" href={item.linkHref}>
+                      {item.linkLabel}
+                    </a>
+                  </div>
+                </article>
               ))}
             </div>
           </div>
@@ -296,11 +400,10 @@ export default function App() {
               description={siteContent.pricing.subtitle}
             />
             <div className="pricing-layout">
-              <article className="pricing-panel pricing-panel--course">
-                <p className="pricing-panel__title">{siteContent.pricing.course.title}</p>
-
+              <article className="pricing-panel">
+                <p className="pricing-panel__title">{siteContent.pricing.play.title}</p>
                 <div className="pricing-table">
-                  {siteContent.pricing.course.items.map((item) => (
+                  {siteContent.pricing.play.items.map((item) => (
                     <div key={item.label} className="pricing-row">
                       <div>
                         <p className="pricing-row__label">{item.label}</p>
@@ -310,26 +413,29 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-
-                <p className="pricing-panel__note">{siteContent.pricing.course.note}</p>
-
-                <div className="pricing-panel__payment">
-                  <p className="pricing-panel__subtitle">{siteContent.pricing.course.paymentTitle}</p>
-                  {siteContent.pricing.course.paymentLines.map((line) => (
-                    <p key={line}>{line}</p>
-                  ))}
-                  <p className="pricing-panel__fine-note">
-                    {siteContent.pricing.course.fineNote}
-                  </p>
-                </div>
+                <p className="pricing-panel__note">{siteContent.pricing.play.note}</p>
               </article>
 
-              <article className="pricing-panel pricing-panel--range">
-                <p className="pricing-panel__title">{siteContent.pricing.range.title}</p>
-                <div className="pricing-range">
-                  <p className="pricing-range__price">{siteContent.pricing.range.price}</p>
-                  <p className="pricing-range__label">{siteContent.pricing.range.label}</p>
-                  <p className="pricing-range__note">{siteContent.pricing.range.note}</p>
+              <article className="pricing-panel">
+                <p className="pricing-panel__title">{siteContent.pricing.membership.title}</p>
+                <div className="pricing-table">
+                  {siteContent.pricing.membership.items.map((item) => (
+                    <div key={item.label} className="pricing-row">
+                      <div>
+                        <p className="pricing-row__label">{item.label}</p>
+                        <p className="pricing-row__sub">{item.sublabel}</p>
+                      </div>
+                      <p className="pricing-row__price">{item.price}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="pricing-panel__info">
+                  <p className="pricing-panel__subtitle">{siteContent.pricing.membership.infoTitle}</p>
+                  <ul className="pricing-panel__info-list">
+                    {siteContent.pricing.membership.infoLines.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
                 </div>
               </article>
             </div>
@@ -339,8 +445,8 @@ export default function App() {
         <section className="section section--compact gallery-section">
           <div className="container">
             <SectionHeading
-              title="Fra anlegget"
-              description={`Noen glimt fra banen, rangen og miljøet på ${businessName}.`}
+              title={siteContent.gallery.title}
+              description={siteContent.gallery.description}
             />
             <div className="gallery-strip" aria-label={`Bildegalleri fra ${businessName}`}>
               {gallery.map((item, index) => (
@@ -351,7 +457,7 @@ export default function App() {
                   <img src={item.src} alt={item.alt} />
                   <div className="gallery-card__overlay">
                     <p className="gallery-card__caption">
-                      {index === 0 ? 'Se flere bilder fra anlegget' : businessName}
+                      {index === 0 ? siteContent.gallery.featuredCaption : businessName}
                     </p>
                   </div>
                 </article>
@@ -364,11 +470,11 @@ export default function App() {
           <div className="container split-grid reverse-on-mobile">
             <div className="content-card">
               <SectionHeading
-                title="Slik fungerer det"
-                description="Det skal være enkelt å bruke anlegget, enten du kommer for en runde eller bare en kort treningsøkt."
+                title={siteContent.booking.title}
+                description={siteContent.booking.description}
               />
               <div className="steps-list">
-                {steps.map((step, index) => (
+                {siteContent.booking.steps.map((step, index) => (
                   <div key={step.label} className="step">
                     <span className="step__number">{index + 1}</span>
                     <div>
@@ -379,12 +485,12 @@ export default function App() {
                 ))}
               </div>
               <a className="button button--primary" href="#contact">
-                Spør oss gjerne
+                {siteContent.booking.ctaLabel}
               </a>
             </div>
 
             <div className="notes-stack">
-              {arrivalNotes.map((note) => (
+              {siteContent.booking.notes.map((note) => (
                 <article key={note.title} className="content-card note-card">
                   <p className="note-card__title">{note.title}</p>
                   <p>{note.text}</p>
@@ -397,8 +503,8 @@ export default function App() {
         <section className="section partners-section">
           <div className="container">
             <SectionHeading
-              title="Våre partnere"
-              description={`Vi samarbeider med lokale aktører for å skape et bedre tilbud på ${businessName}.`}
+              title={siteContent.partners.title}
+              description={siteContent.partners.description}
             />
             <div className="partners-grid partners-grid--logos">
               {partners.map((partner) => (
@@ -408,7 +514,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section" id="contact">
+        <section className="section contact-section" id="contact">
           <div className="container split-grid">
             <div>
               <SectionHeading
@@ -456,7 +562,12 @@ export default function App() {
               </div>
             </div>
             <div className="map-card">
-              <div className="map-placeholder">
+              <div
+                className="map-placeholder"
+                style={{
+                  backgroundImage: `linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(24, 31, 28, 0.18)), url(${mapImage})`,
+                }}
+              >
                 <div className="map-placeholder__content">
                   <p className="map-placeholder__eyebrow">{siteContent.contact.mapCard.eyebrow}</p>
                   <p className="map-placeholder__title">{siteContent.contact.mapCard.title}</p>
@@ -473,11 +584,11 @@ export default function App() {
 
       <footer className="footer">
         <div className="container footer__content">
-          <a className="footer__cta" href="#booking">
-            Book starttid
+          <a className="footer__cta" href={siteContent.footer.ctaHref}>
+            {siteContent.footer.ctaLabel}
           </a>
-          <p>© 2026 {businessName}</p>
-          <p>Par 3-bane og driving range i Trondheim.</p>
+          <p>{siteContent.footer.copyright}</p>
+          <p>{siteContent.footer.description}</p>
         </div>
       </footer>
     </div>
