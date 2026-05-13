@@ -12,5 +12,21 @@ export const availableClubData = {
   vanylven: vanylvenClubData,
 } as const;
 
-// Change this export when you want to preview a different club in the app.
-export const defaultGolfClubData = vanylvenClubData;
+export type ClubSlug = keyof typeof availableClubData;
+
+export const defaultGolfClubData = smolaClubData;
+
+export function getClubSlugFromPath(pathname: string): ClubSlug | null {
+  const match = pathname.match(/^\/golf\/([^/]+)\/?$/);
+  if (!match) {
+    return null;
+  }
+
+  const slug = match[1] as ClubSlug;
+  return slug in availableClubData ? slug : null;
+}
+
+export function getClubDataForPath(pathname: string) {
+  const slug = getClubSlugFromPath(pathname);
+  return slug ? availableClubData[slug] : defaultGolfClubData;
+}

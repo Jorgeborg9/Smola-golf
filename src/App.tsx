@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SectionHeading } from './components/SectionHeading';
 import { PartnerLogoCard } from './components/PartnerLogoCard';
 import { ReviewCard } from './components/ReviewCard';
-import { defaultGolfClubData } from './data/clubs';
+import { defaultGolfClubData, getClubDataForPath, getClubSlugFromPath } from './data/clubs';
 
 function FacilityIcon({ icon }: { icon: 'range' | 'clubhouse' | 'access' }) {
   if (icon === 'range') {
@@ -36,7 +36,11 @@ export default function App() {
   const reviewsStripRef = useRef<HTMLDivElement | null>(null);
   const [desktopReviews, setDesktopReviews] = useState(false);
   const [reviewStart, setReviewStart] = useState(0);
-  const businessName = defaultGolfClubData.club.name;
+  const currentPath = typeof window === 'undefined' ? '/' : window.location.pathname;
+  const clubData = getClubDataForPath(currentPath);
+  const currentSlug = getClubSlugFromPath(currentPath);
+  const currentRoute = currentSlug ? `/golf/${currentSlug}` : '/';
+  const businessName = clubData.club.name;
   const navigationItems = [
     { label: 'Banen', href: '#banen' },
     { label: 'Nyheter', href: '#nyheter' },
@@ -56,13 +60,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.title = defaultGolfClubData.seo.title;
+    document.title = clubData.seo.title;
 
     const descriptionTag = document.querySelector('meta[name="description"]');
     if (descriptionTag) {
-      descriptionTag.setAttribute('content', defaultGolfClubData.seo.description);
+      descriptionTag.setAttribute('content', clubData.seo.description);
     }
-  }, []);
+  }, [clubData]);
 
   useEffect(() => {
     if (!desktopReviews) {
@@ -70,13 +74,13 @@ export default function App() {
       return;
     }
 
-    const maxStart = Math.max(0, defaultGolfClubData.reviews.cards.length - 4);
+    const maxStart = Math.max(0, clubData.reviews.cards.length - 4);
     const intervalId = window.setInterval(() => {
       setReviewStart((current) => (current >= maxStart ? 0 : current + 1));
     }, 3800);
 
     return () => window.clearInterval(intervalId);
-  }, [desktopReviews]);
+  }, [clubData, desktopReviews]);
 
   useEffect(() => {
     const strip = reviewsStripRef.current;
@@ -100,11 +104,11 @@ export default function App() {
   return (
     <div className="page-shell">
       <header className="hero">
-        <div className="hero__media" style={{ backgroundImage: `url(${defaultGolfClubData.media.heroImage})` }} />
+        <div className="hero__media" style={{ backgroundImage: `url(${clubData.media.heroImage})` }} />
         <div className="container hero__inner">
           <div className="hero-bar" aria-label="Toppnavigasjon">
-            <a className="hero-bar__brand" href="/">
-              <img src={defaultGolfClubData.club.logo.src} alt={defaultGolfClubData.club.logo.alt} />
+            <a className="hero-bar__brand" href={currentRoute}>
+              <img src={clubData.club.logo.src} alt={clubData.club.logo.alt} />
             </a>
             <nav className="hero-nav" aria-label="Seksjoner">
               {navigationItems.map((item) => (
@@ -113,7 +117,7 @@ export default function App() {
                 </a>
               ))}
             </nav>
-            <a className="hero-bar__link" href={defaultGolfClubData.club.socialHref}>
+            <a className="hero-bar__link" href={clubData.club.socialHref}>
               <span className="sr-only">Facebook</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -125,21 +129,21 @@ export default function App() {
           </div>
 
           <div className="hero__content">
-            <p className="hero__eyebrow">{defaultGolfClubData.hero.eyebrow}</p>
-            <h1>{defaultGolfClubData.hero.title}</h1>
-            <p className="hero__text">{defaultGolfClubData.hero.subtitle}</p>
+            <p className="hero__eyebrow">{clubData.hero.eyebrow}</p>
+            <h1>{clubData.hero.title}</h1>
+            <p className="hero__text">{clubData.hero.subtitle}</p>
 
             <div className="hero__actions">
-              <a className="button button--primary" href={defaultGolfClubData.hero.primaryCta.href}>
-                {defaultGolfClubData.hero.primaryCta.label}
+              <a className="button button--primary" href={clubData.hero.primaryCta.href}>
+                {clubData.hero.primaryCta.label}
               </a>
-              <a className="button button--ghost" href={defaultGolfClubData.hero.secondaryCta.href}>
-                {defaultGolfClubData.hero.secondaryCta.label}
+              <a className="button button--ghost" href={clubData.hero.secondaryCta.href}>
+                {clubData.hero.secondaryCta.label}
               </a>
             </div>
 
             <div className="hero__facility-grid">
-              {defaultGolfClubData.hero.statusCards.map((card) => (
+              {clubData.hero.statusCards.map((card) => (
                 <article key={card.title} className="hero-teaser hero-teaser--course">
                   <p className="hero-teaser__label">{card.title}</p>
                   <div className="hero-teaser__status-row">
@@ -162,23 +166,23 @@ export default function App() {
           <div className="container">
             <div className="reviews-section__header">
               <SectionHeading
-                sectionLabel={defaultGolfClubData.reviews.sectionLabel}
-                title={defaultGolfClubData.reviews.title}
-                description={defaultGolfClubData.reviews.subtitle}
+                sectionLabel={clubData.reviews.sectionLabel}
+                title={clubData.reviews.title}
+                description={clubData.reviews.subtitle}
               />
               <div className="reviews-section__meta">
                 <div className="reviews-summary" aria-label="Anmeldelser sammendrag">
-                  <p className="reviews-summary__label">{defaultGolfClubData.reviews.summaryLabel}</p>
-                  <p className="reviews-summary__score">{defaultGolfClubData.reviews.summaryScore}</p>
+                  <p className="reviews-summary__label">{clubData.reviews.summaryLabel}</p>
+                  <p className="reviews-summary__score">{clubData.reviews.summaryScore}</p>
                 </div>
-                <a className="reviews-section__link" href={defaultGolfClubData.reviews.linkHref}>
-                  {defaultGolfClubData.reviews.linkLabel}
+                <a className="reviews-section__link" href={clubData.reviews.linkHref}>
+                  {clubData.reviews.linkLabel}
                 </a>
               </div>
             </div>
 
             <div className="reviews-strip" aria-label="Anmeldelser" ref={reviewsStripRef}>
-              {defaultGolfClubData.reviews.cards.map((review) => (
+              {clubData.reviews.cards.map((review) => (
                 <ReviewCard
                   key={`${review.name}-${review.quote}`}
                   rating={review.rating}
@@ -194,21 +198,21 @@ export default function App() {
         <section id="banen" className="section section--compact about-section">
           <div className="container">
             <div className="section-heading">
-              <p className="section-label">{defaultGolfClubData.aboutCourse.sectionLabel}</p>
+              <p className="section-label">{clubData.aboutCourse.sectionLabel}</p>
             </div>
             <div className="about-split">
               <article className="content-card about-panel">
                 <div className="about-panel__content">
-                  <h3 className="about-panel__title">{defaultGolfClubData.aboutCourse.title}</h3>
-                  <p className="about-panel__intro">{defaultGolfClubData.aboutCourse.subtitle}</p>
+                  <h3 className="about-panel__title">{clubData.aboutCourse.title}</h3>
+                  <p className="about-panel__intro">{clubData.aboutCourse.subtitle}</p>
                 </div>
                 <div className="about-panel__copy">
-                  {defaultGolfClubData.aboutCourse.body.map((paragraph) => (
+                  {clubData.aboutCourse.body.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
                 <div className="about-pills">
-                  {defaultGolfClubData.aboutCourse.pills.map((pill) => (
+                  {clubData.aboutCourse.pills.map((pill) => (
                     <span key={pill} className="about-pill">
                       {pill}
                     </span>
@@ -217,7 +221,7 @@ export default function App() {
               </article>
 
               <article className="image-block image-block--tall about-image-card">
-                <img src={defaultGolfClubData.media.aboutImage.src} alt={defaultGolfClubData.media.aboutImage.alt} />
+                <img src={clubData.media.aboutImage.src} alt={clubData.media.aboutImage.alt} />
               </article>
             </div>
           </div>
@@ -226,12 +230,12 @@ export default function App() {
         <section className="section section--compact">
           <div className="container">
             <SectionHeading
-              sectionLabel={defaultGolfClubData.facilities.sectionLabel}
-              title={defaultGolfClubData.facilities.title}
-              description={defaultGolfClubData.facilities.subtitle}
+              sectionLabel={clubData.facilities.sectionLabel}
+              title={clubData.facilities.title}
+              description={clubData.facilities.subtitle}
             />
             <div className="facility-feature-grid">
-              {defaultGolfClubData.facilities.cards.map((card) => (
+              {clubData.facilities.cards.map((card) => (
                 <article key={card.title} className="content-card facility-feature-card">
                   <div className="facility-feature-card__top">
                     <span className="facility-feature-card__icon">
@@ -258,12 +262,12 @@ export default function App() {
         <section id="nyheter" className="section section--compact news-section">
           <div className="container">
             <SectionHeading
-              sectionLabel={defaultGolfClubData.news.sectionLabel}
-              title={defaultGolfClubData.news.title}
-              description={defaultGolfClubData.news.subtitle}
+              sectionLabel={clubData.news.sectionLabel}
+              title={clubData.news.title}
+              description={clubData.news.subtitle}
             />
             <div className="news-grid">
-              {defaultGolfClubData.news.items.map((item) => (
+              {clubData.news.items.map((item) => (
                 <article key={item.title} className="content-card news-card">
                   <div className="news-card__image">
                     <img src={item.image.src} alt={item.image.alt} />
@@ -289,11 +293,11 @@ export default function App() {
           <div id="practical" className="section-anchor" aria-hidden="true" />
           <div className="container">
             <div className="section-heading practical-section__heading">
-              <p className="section-label">{defaultGolfClubData.playOrTrain.sectionLabel}</p>
-              <h2>{defaultGolfClubData.playOrTrain.title}</h2>
+              <p className="section-label">{clubData.playOrTrain.sectionLabel}</p>
+              <h2>{clubData.playOrTrain.title}</h2>
             </div>
             <div className="facility-grid">
-              {defaultGolfClubData.playOrTrain.cards.map((facility) => (
+              {clubData.playOrTrain.cards.map((facility) => (
                 <article
                   key={facility.title}
                   className={`facility-card facility-card--${facility.variant}`}
@@ -352,15 +356,15 @@ export default function App() {
           <div id="pricing" className="section-anchor" aria-hidden="true" />
           <div className="container">
             <SectionHeading
-              sectionLabel={defaultGolfClubData.pricing.sectionLabel}
-              title={defaultGolfClubData.pricing.title}
-              description={defaultGolfClubData.pricing.subtitle}
+              sectionLabel={clubData.pricing.sectionLabel}
+              title={clubData.pricing.title}
+              description={clubData.pricing.subtitle}
             />
             <div className="pricing-layout">
               <article className="pricing-panel">
-                <p className="pricing-panel__title">{defaultGolfClubData.pricing.play.title}</p>
+                <p className="pricing-panel__title">{clubData.pricing.play.title}</p>
                 <div className="pricing-table">
-                  {defaultGolfClubData.pricing.play.items.map((item) => (
+                  {clubData.pricing.play.items.map((item) => (
                     <div key={item.label} className="pricing-row">
                       <div>
                         <p className="pricing-row__label">{item.label}</p>
@@ -370,13 +374,13 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <p className="pricing-panel__note">{defaultGolfClubData.pricing.play.note}</p>
+                <p className="pricing-panel__note">{clubData.pricing.play.note}</p>
               </article>
 
               <article className="pricing-panel">
-                <p className="pricing-panel__title">{defaultGolfClubData.pricing.membership.title}</p>
+                <p className="pricing-panel__title">{clubData.pricing.membership.title}</p>
                 <div className="pricing-table">
-                  {defaultGolfClubData.pricing.membership.items.map((item) => (
+                  {clubData.pricing.membership.items.map((item) => (
                     <div key={item.label} className="pricing-row">
                       <div>
                         <p className="pricing-row__label">{item.label}</p>
@@ -387,9 +391,9 @@ export default function App() {
                   ))}
                 </div>
                 <div className="pricing-panel__info">
-                  <p className="pricing-panel__subtitle">{defaultGolfClubData.pricing.membership.infoTitle}</p>
+                  <p className="pricing-panel__subtitle">{clubData.pricing.membership.infoTitle}</p>
                   <ul className="pricing-panel__info-list">
-                    {defaultGolfClubData.pricing.membership.infoLines.map((line) => (
+                    {clubData.pricing.membership.infoLines.map((line) => (
                       <li key={line}>{line}</li>
                     ))}
                   </ul>
@@ -402,12 +406,12 @@ export default function App() {
         <section className="section section--compact gallery-section">
           <div className="container">
             <SectionHeading
-              sectionLabel={defaultGolfClubData.gallery.sectionLabel}
-              title={defaultGolfClubData.gallery.title}
-              description={defaultGolfClubData.gallery.subtitle}
+              sectionLabel={clubData.gallery.sectionLabel}
+              title={clubData.gallery.title}
+              description={clubData.gallery.subtitle}
             />
             <div className="gallery-strip" aria-label={`Bildegalleri fra ${businessName}`}>
-              {defaultGolfClubData.media.gallery.map((item, index) => (
+              {clubData.media.gallery.map((item, index) => (
                 <article
                   key={item.alt}
                   className={`gallery-card gallery-card--local${index === 0 ? ' gallery-card--featured' : ''}`}
@@ -415,7 +419,7 @@ export default function App() {
                   <img src={item.src} alt={item.alt} />
                   <div className="gallery-card__overlay">
                     <p className="gallery-card__caption">
-                      {index === 0 ? defaultGolfClubData.gallery.featuredCaption : businessName}
+                      {index === 0 ? clubData.gallery.featuredCaption : businessName}
                     </p>
                   </div>
                 </article>
@@ -429,12 +433,12 @@ export default function App() {
           <div className="container split-grid reverse-on-mobile">
             <div className="content-card">
               <SectionHeading
-                sectionLabel={defaultGolfClubData.booking.sectionLabel}
-                title={defaultGolfClubData.booking.title}
-                description={defaultGolfClubData.booking.subtitle}
+                sectionLabel={clubData.booking.sectionLabel}
+                title={clubData.booking.title}
+                description={clubData.booking.subtitle}
               />
               <div className="steps-list">
-                {defaultGolfClubData.booking.steps.map((step, index) => (
+                {clubData.booking.steps.map((step, index) => (
                   <div key={step.label} className="step">
                     <span className="step__number">{index + 1}</span>
                     <div>
@@ -444,13 +448,13 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <a className="button button--primary" href={defaultGolfClubData.booking.cta.href}>
-                {defaultGolfClubData.booking.cta.label}
+              <a className="button button--primary" href={clubData.booking.cta.href}>
+                {clubData.booking.cta.label}
               </a>
             </div>
 
             <div className="notes-stack">
-              {defaultGolfClubData.booking.notes.map((note) => (
+              {clubData.booking.notes.map((note) => (
                 <article key={note.title} className="content-card note-card">
                   <p className="note-card__title">{note.title}</p>
                   <p>{note.text}</p>
@@ -463,12 +467,12 @@ export default function App() {
         <section className="section partners-section">
           <div className="container">
             <SectionHeading
-              sectionLabel={defaultGolfClubData.partners.sectionLabel}
-              title={defaultGolfClubData.partners.title}
-              description={defaultGolfClubData.partners.subtitle}
+              sectionLabel={clubData.partners.sectionLabel}
+              title={clubData.partners.title}
+              description={clubData.partners.subtitle}
             />
             <div className="partners-grid partners-grid--logos">
-              {defaultGolfClubData.media.partners.map((partner) => (
+              {clubData.media.partners.map((partner) => (
                 <PartnerLogoCard key={partner.name} name={partner.name} logo={partner.logo} />
               ))}
             </div>
@@ -480,9 +484,9 @@ export default function App() {
           <div className="container split-grid">
             <div>
               <SectionHeading
-                sectionLabel={defaultGolfClubData.contact.sectionLabel}
-                title={defaultGolfClubData.contact.title}
-                description={defaultGolfClubData.contact.subtitle}
+                sectionLabel={clubData.contact.sectionLabel}
+                title={clubData.contact.title}
+                description={clubData.contact.subtitle}
               />
               <div className="contact-list">
                 <div className="contact-item">
@@ -493,8 +497,8 @@ export default function App() {
                     </svg>
                   </span>
                   <div>
-                    <p className="contact-item__label">{defaultGolfClubData.contact.area.label}</p>
-                    <p className="contact-item__value">{defaultGolfClubData.contact.area.value}</p>
+                    <p className="contact-item__label">{clubData.contact.area.label}</p>
+                    <p className="contact-item__value">{clubData.contact.area.value}</p>
                   </div>
                 </div>
 
@@ -505,8 +509,8 @@ export default function App() {
                     </svg>
                   </span>
                   <div>
-                    <p className="contact-item__label">{defaultGolfClubData.contact.phone.label}</p>
-                    <p className="contact-item__value">{defaultGolfClubData.contact.phone.value}</p>
+                    <p className="contact-item__label">{clubData.contact.phone.label}</p>
+                    <p className="contact-item__value">{clubData.contact.phone.value}</p>
                   </div>
                 </div>
 
@@ -518,8 +522,8 @@ export default function App() {
                     </svg>
                   </span>
                   <div>
-                    <p className="contact-item__label">{defaultGolfClubData.contact.email.label}</p>
-                    <p className="contact-item__value">{defaultGolfClubData.contact.email.value}</p>
+                    <p className="contact-item__label">{clubData.contact.email.label}</p>
+                    <p className="contact-item__value">{clubData.contact.email.value}</p>
                   </div>
                 </div>
               </div>
@@ -528,15 +532,15 @@ export default function App() {
               <div
                 className="map-placeholder"
                 style={{
-                  backgroundImage: `linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(24, 31, 28, 0.18)), url(${defaultGolfClubData.media.mapImage})`,
+                  backgroundImage: `linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(24, 31, 28, 0.18)), url(${clubData.media.mapImage})`,
                 }}
               >
                 <div className="map-placeholder__content">
-                  <p className="map-placeholder__eyebrow">{defaultGolfClubData.contact.mapCard.eyebrow}</p>
-                  <p className="map-placeholder__title">{defaultGolfClubData.contact.mapCard.title}</p>
-                  <p className="map-placeholder__text">{defaultGolfClubData.contact.mapCard.description}</p>
-                  <a className="button button--primary map-placeholder__cta" href={defaultGolfClubData.contact.mapCard.cta.href}>
-                    {defaultGolfClubData.contact.mapCard.cta.label}
+                  <p className="map-placeholder__eyebrow">{clubData.contact.mapCard.eyebrow}</p>
+                  <p className="map-placeholder__title">{clubData.contact.mapCard.title}</p>
+                  <p className="map-placeholder__text">{clubData.contact.mapCard.description}</p>
+                  <a className="button button--primary map-placeholder__cta" href={clubData.contact.mapCard.cta.href}>
+                    {clubData.contact.mapCard.cta.label}
                   </a>
                 </div>
               </div>
@@ -547,11 +551,11 @@ export default function App() {
 
       <footer className="footer">
         <div className="container footer__content">
-          <a className="footer__cta" href={defaultGolfClubData.footer.cta.href}>
-            {defaultGolfClubData.footer.cta.label}
+          <a className="footer__cta" href={clubData.footer.cta.href}>
+            {clubData.footer.cta.label}
           </a>
-          <p>{defaultGolfClubData.footer.copyright}</p>
-          <p>{defaultGolfClubData.footer.description}</p>
+          <p>{clubData.footer.copyright}</p>
+          <p>{clubData.footer.description}</p>
         </div>
       </footer>
     </div>

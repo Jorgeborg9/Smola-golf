@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/golf/:slug",
+      "destination": "/"
+    },
+    {
+      "source": "/golf/:slug/:path*",
+      "destination": "/"
+    }
+  ]
+}
