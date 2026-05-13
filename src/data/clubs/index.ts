@@ -1,12 +1,14 @@
+import { bleikClubData } from './bleik';
 import { exampleClubData } from './example';
 import { smolaClubData } from './smola';
 import { vanylvenClubData } from './vanylven';
 
 export type { GolfClubData } from './types';
-export { exampleClubData, smolaClubData, vanylvenClubData };
+export { bleikClubData, exampleClubData, smolaClubData, vanylvenClubData };
 
 // New golf club demos can be created by copying `smola.ts` or `example.ts` and replacing the content.
 export const availableClubData = {
+  bleik: bleikClubData,
   smola: smolaClubData,
   example: exampleClubData,
   vanylven: vanylvenClubData,

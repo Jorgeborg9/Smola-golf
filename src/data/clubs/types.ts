@@ -95,7 +95,8 @@ export interface GolfClubData {
     name: string;
     location: string;
     socialHref: string;
-    logo: ImageContent;
+    logo?: ImageContent;
+    wordmark?: string;
   };
   seo: {
     title: string;

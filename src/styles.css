@@ -149,6 +149,18 @@ button {
   height: 45px;
 }
 
+.hero-bar__brand-text {
+  display: inline-flex;
+  align-items: center;
+  min-height: 45px;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 0.96rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .hero-nav {
   display: flex;
   align-items: center;
@@ -1852,6 +1864,12 @@ main > .section:nth-of-type(even):not(.section--accent):not(.reviews-section):no
 
   .hero-bar__brand img {
     height: 37px;
+  }
+
+  .hero-bar__brand-text {
+    min-height: 37px;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
   }
 
   .hero-bar__brand {

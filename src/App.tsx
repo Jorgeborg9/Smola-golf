@@ -108,7 +108,11 @@ export default function App() {
         <div className="container hero__inner">
           <div className="hero-bar" aria-label="Toppnavigasjon">
             <a className="hero-bar__brand" href={currentRoute}>
-              <img src={clubData.club.logo.src} alt={clubData.club.logo.alt} />
+              {clubData.club.logo ? (
+                <img src={clubData.club.logo.src} alt={clubData.club.logo.alt} />
+              ) : (
+                <span className="hero-bar__brand-text">{clubData.club.wordmark ?? clubData.club.name}</span>
+              )}
             </a>
             <nav className="hero-nav" aria-label="Seksjoner">
               {navigationItems.map((item) => (
