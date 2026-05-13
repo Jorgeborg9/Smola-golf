@@ -1428,6 +1428,11 @@ main > .section:nth-of-type(even):not(.section--accent):not(.reviews-section):no
   transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
 }
 
+.review-card--compact {
+  min-height: 132px;
+  gap: 0.5rem;
+}
+
 .review-card__stars {
   color: #b8872f;
   letter-spacing: 0.08em;
