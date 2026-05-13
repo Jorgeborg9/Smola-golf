@@ -1,204 +1,91 @@
-interface LinkContent {
-  label: string;
-  href: string;
-}
+import heroImage from '../../assets/images/Hero.jpg';
+import clubLogo from '../../assets/images/Smola logo.png';
+import courseMapImage from '../../assets/images/Banekart smola.png';
+import mapImage from '../../assets/images/Map.png';
+import courseImageOne from '../../assets/images/Course-1.png';
+import courseImageTwo from '../../assets/images/Course-2.png';
+import courseImageThree from '../../assets/images/Course-3.png';
+import courseImageFour from '../../assets/images/Course-4.png';
+import courseImageFive from '../../assets/images/Course-5.png';
+import sparebankLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.00.png';
+import statkraftLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.06.png';
+import holbergLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.10.png';
+import bautaLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.19.png';
+import boerietLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.24.png';
+import storyLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.26.png';
+import holmLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.31.png';
+import bettenLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.36.png';
+import einesLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.39.png';
+import promekLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.45.png';
+import smolaOppdrettLogo from '../../assets/images/Skjermbilde 2026-04-23 kl. 20.58.52.png';
+import type { GolfClubData } from './types';
 
-interface SectionHeaderContent {
-  sectionLabel: string;
-  title: string;
-  subtitle: string;
-}
-
-interface ContactItemContent {
-  label: string;
-  value: string;
-}
-
-interface HeroStatusCard {
-  title: string;
-  status: string;
-  statusLabel: string;
-  detail: string;
-}
-
-interface HeroContent {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  socialHref: string;
-  statusCards: HeroStatusCard[];
-  primaryCta: LinkContent;
-  secondaryCta: LinkContent;
-}
-
-interface ReviewCardContent {
-  name: string;
-  rating: number;
-  quote: string;
-  sourceLabel: string;
-}
-
-interface ReviewsContent {
-  title: string;
-  subtitle: string;
-  summaryLabel: string;
-  summaryScore: string;
-  linkLabel: string;
-  linkHref: string;
-  cards: ReviewCardContent[];
-}
-
-interface PlayOrTrainGroup {
-  title: string;
-  points: string[];
-  intro?: string;
-  note?: string;
-  example?: string;
-}
-
-interface PlayOrTrainCard {
-  eyebrow: string;
-  title: string;
-  status: string;
-  statusLabel: string;
-  hours: string;
-  greenkeeperComment: {
-    title: string;
-    text: string;
-    warning?: string;
-  };
-  groups: PlayOrTrainGroup[];
-  cta: LinkContent;
-  variant: string;
-}
-
-interface PlayOrTrainContent {
-  sectionLabel: string;
-  title: string;
-  cards: PlayOrTrainCard[];
-}
-
-interface PricingCourseItem {
-  label: string;
-  sublabel: string;
-  price: string;
-}
-
-interface PricingContent extends SectionHeaderContent {
-  play: {
-    title: string;
-    items: PricingCourseItem[];
-    note: string;
-  };
-  membership: {
-    title: string;
-    items: PricingCourseItem[];
-    infoTitle: string;
-    infoLines: string[];
-  };
-}
-
-interface AboutCourseContent extends SectionHeaderContent {
-  introLabel: string;
-  body: string[];
-  pills: string[];
-  imageIndex: number;
-}
-
-interface FacilityFeatureCard {
-  label: string;
-  title: string;
-  intro: string;
-  bullets: string[];
-  icon: 'range' | 'clubhouse' | 'access';
-}
-
-interface FacilitiesContent extends SectionHeaderContent {
-  cards: FacilityFeatureCard[];
-}
-
-interface NewsItemContent {
-  badge: string;
-  dateLabel: string;
-  title: string;
-  text: string;
-  linkLabel: string;
-  linkHref: string;
-  imageIndex: number;
-}
-
-interface NewsContent extends SectionHeaderContent {
-  items: NewsItemContent[];
-}
-
-interface GalleryContent {
-  title: string;
-  description: string;
-  featuredCaption: string;
-}
-
-interface BookingContent {
-  title: string;
-  description: string;
-  ctaLabel: string;
-  steps: {
-    label: string;
-    detail: string;
-  }[];
-  notes: {
-    title: string;
-    text: string;
-  }[];
-}
-
-interface PartnersContent {
-  title: string;
-  description: string;
-}
-
-interface ContactContent extends SectionHeaderContent {
-  area: ContactItemContent;
-  phone: ContactItemContent;
-  email: ContactItemContent;
-  mapCard: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    ctaLabel: LinkContent['label'];
-    ctaHref: LinkContent['href'];
-  };
-}
-
-interface FooterContent {
-  ctaLabel: string;
-  ctaHref: string;
-  copyright: string;
-  description: string;
-}
-
-interface SiteContent {
-  businessName: string;
-  hero: HeroContent;
-  reviews: ReviewsContent;
-  aboutCourse: AboutCourseContent;
-  facilities: FacilitiesContent;
-  news: NewsContent;
-  playOrTrain: PlayOrTrainContent;
-  pricing: PricingContent;
-  gallery: GalleryContent;
-  booking: BookingContent;
-  partners: PartnersContent;
-  contact: ContactContent;
-  footer: FooterContent;
-}
-
-export const siteContent: SiteContent = {
-  businessName: 'Smøla Golfklubb',
+// Copy this file when you want to create a new golf club demo based on the Smola version.
+export const smolaClubData: GolfClubData = {
+  club: {
+    name: 'Smøla Golfklubb',
+    location: 'Dyrnes, Smøla',
+    socialHref: 'https://www.facebook.com/groups/181331778221/',
+    logo: {
+      src: clubLogo,
+      alt: 'Smøla Golfklubb',
+    },
+  },
+  seo: {
+    title: 'Smøla Golfklubb',
+    description: 'Smøla Golfklubb',
+  },
+  media: {
+    heroImage,
+    mapImage,
+    aboutImage: {
+      src: courseImageTwo,
+      alt: 'Om banen hos Smøla Golfklubb',
+    },
+    gallery: [
+      {
+        src: courseImageOne,
+        alt: 'Golfbane og landskap ved Smøla Golfklubb',
+      },
+      {
+        src: courseImageTwo,
+        alt: 'Utsikt fra banen i Dyrnesdalen på Smøla Golfklubb',
+      },
+      {
+        src: courseImageThree,
+        alt: 'Spillområde på Smøla Golfklubb',
+      },
+      {
+        src: courseImageFour,
+        alt: 'Fairway og natur ved Smøla Golfklubb',
+      },
+      {
+        src: courseImageFive,
+        alt: 'Golfmiljø ytterst i havgapet på Smøla Golfklubb',
+      },
+      {
+        src: courseMapImage,
+        alt: 'Banekart for Smøla Golfklubb',
+      },
+    ],
+    partners: [
+      { name: 'SpareBank 1 Nordmøre', logo: sparebankLogo },
+      { name: 'Statkraft', logo: statkraftLogo },
+      { name: 'Holberg Shipping', logo: holbergLogo },
+      { name: 'Bauta Group', logo: bautaLogo },
+      { name: 'Bøteriet', logo: boerietLogo },
+      { name: 'Story Mote', logo: storyLogo },
+      { name: 'Brødrene Holm', logo: holmLogo },
+      { name: 'Betten Regnskap', logo: bettenLogo },
+      { name: 'Eines AS', logo: einesLogo },
+      { name: 'Promek', logo: promekLogo },
+      { name: 'Smøla Oppdrettservice AS', logo: smolaOppdrettLogo },
+    ],
+  },
   hero: {
     eyebrow: 'Smøla Golfklubb',
     title: 'Golf ytterst i havgapet',
     subtitle: 'Spill golf i vakre omgivelser på Smøla',
-    socialHref: 'https://www.facebook.com/groups/181331778221/',
     statusCards: [
       {
         title: 'Golfbanen',
@@ -217,12 +104,14 @@ export const siteContent: SiteContent = {
     },
   },
   reviews: {
+    sectionLabel: 'Smøla Golfklubb',
     title: 'Hva folk sier om Smøla Golfklubb',
     subtitle: '',
     summaryLabel: 'Tripadvisor',
     summaryScore: '5,0/5',
     linkLabel: 'Se anmeldelser',
-    linkHref: 'https://www.tripadvisor.com/Attraction_Review-g1183551-d23532355-Reviews-Smola_Golfklubb-Smola_More_og_Romsdal_Western_Norway.html',
+    linkHref:
+      'https://www.tripadvisor.com/Attraction_Review-g1183551-d23532355-Reviews-Smola_Golfklubb-Smola_More_og_Romsdal_Western_Norway.html',
     cards: [
       {
         name: 'Bob',
@@ -241,8 +130,8 @@ export const siteContent: SiteContent = {
   aboutCourse: {
     sectionLabel: 'Smøla Golfklubb',
     title: 'Om banen',
-    subtitle: 'Banen i Dyrnesdalen kombinerer natur, lune forhold og en kompakt 9-hullsopplevelse.',
-    introLabel: 'Ytterst i havgapet',
+    subtitle:
+      'Banen i Dyrnesdalen kombinerer natur, lune forhold og en kompakt 9-hullsopplevelse.',
     body: [
       'Banen i Dyrnesdalen byr på en variert og naturskjønn 9-hulls opplevelse, omgitt av skog, åpne partier og rolige omgivelser.',
       'Smøla Golfklubb kombinerer kystnær beliggenhet med gode spilleforhold, der banen ligger beskyttet i terrenget uten å miste følelsen av å være ytterst i havgapet.',
@@ -254,17 +143,18 @@ export const siteContent: SiteContent = {
       'Rødt og gult utslag',
       'Benker ved alle utslag',
     ],
-    imageIndex: 1,
   },
   facilities: {
     sectionLabel: 'Smøla Golfklubb',
     title: 'Fasiliteter på anlegget',
-    subtitle: 'Praktiske tilbud ved banen gjør det enklere å komme i gang, trene og bruke anlegget gjennom sesongen.',
+    subtitle:
+      'Praktiske tilbud ved banen gjør det enklere å komme i gang, trene og bruke anlegget gjennom sesongen.',
     cards: [
       {
         label: 'Trening',
         title: 'Driving range og kurs',
-        intro: 'Driving range ligger ved anlegget og brukes både til egentrening og kursaktivitet gjennom sommeren.',
+        intro:
+          'Driving range ligger ved anlegget og brukes både til egentrening og kursaktivitet gjennom sommeren.',
         bullets: [
           'Driving range ved banen',
           'Kurs holdes ved nok påmeldte',
@@ -275,7 +165,8 @@ export const siteContent: SiteContent = {
       {
         label: 'Service',
         title: 'Greenfeebu, kiosk og klubbtilbud',
-        intro: 'Greenfeebu og kiosk er samlet rundt anlegget, slik at praktisk informasjon og enkel servering er tett på banen.',
+        intro:
+          'Greenfeebu og kiosk er samlet rundt anlegget, slik at praktisk informasjon og enkel servering er tett på banen.',
         bullets: [
           'Stor garasje fungerer som greenfeebu',
           'Kiosken åpner under aktivitet og arrangementer',
@@ -286,7 +177,8 @@ export const siteContent: SiteContent = {
       {
         label: 'Tilgjengelighet',
         title: 'Utstyr og enkel tilgang',
-        intro: 'Klubben gjør det lettere å komme i gang med både utleie, praktisk utstyr og løsninger for spillere med ulike behov.',
+        intro:
+          'Klubben gjør det lettere å komme i gang med både utleie, praktisk utstyr og løsninger for spillere med ulike behov.',
         bullets: [
           'Golfsett kan leies av klubben',
           'Golfbil kan brukes ved nedsatt førlighet',
@@ -308,7 +200,10 @@ export const siteContent: SiteContent = {
         text: 'Det arrangeres seriespill hver søndag kl. 12, mens sosiale runder går mandag og torsdag kl. 18.',
         linkLabel: 'Se praktisk spillinfo',
         linkHref: '#practical',
-        imageIndex: 0,
+        image: {
+          src: courseImageOne,
+          alt: 'Seriespill og faste spillerunder hos Smøla Golfklubb',
+        },
       },
       {
         badge: 'Turnering',
@@ -317,7 +212,10 @@ export const siteContent: SiteContent = {
         text: 'Første søndag hver måned arrangeres åpen turnering kl. 12 for medlemmer og gjester.',
         linkLabel: 'Les mer om klubblivet',
         linkHref: '#booking',
-        imageIndex: 1,
+        image: {
+          src: courseImageTwo,
+          alt: 'Åpen turnering på Smøla Golfklubb',
+        },
       },
       {
         badge: 'Miljø',
@@ -326,13 +224,17 @@ export const siteContent: SiteContent = {
         text: 'Senior- og formiddagsgolf spilles onsdager kl. 11, og klubben holder et aktivt miljø gjennom sesongen.',
         linkLabel: 'Se klubbtilbud',
         linkHref: '#booking',
-        imageIndex: 3,
+        image: {
+          src: courseImageFour,
+          alt: 'Seniorgolf og klubbmiljø på Smøla Golfklubb',
+        },
       },
     ],
   },
   playOrTrain: {
     sectionLabel: 'Smøla Golfklubb',
     title: 'Spill og aktiviteter',
+    subtitle: '',
     cards: [
       {
         eyebrow: 'For deg som vil spille',
@@ -400,9 +302,7 @@ export const siteContent: SiteContent = {
           },
           {
             title: 'Medlemsinfo',
-            points: [
-              'Klubben sender løpende medlemsinformasjon gjennom sesongen',
-            ],
+            points: ['Klubben sender løpende medlemsinformasjon gjennom sesongen.'],
           },
         ],
         cta: {
@@ -492,26 +392,35 @@ export const siteContent: SiteContent = {
     },
   },
   gallery: {
+    sectionLabel: 'Smøla Golfklubb',
     title: 'Fra anlegget',
-    description: 'Noen glimt fra banen, naturen rundt og banekartet på Smøla Golfklubb.',
+    subtitle: 'Noen glimt fra banen, naturen rundt og banekartet på Smøla Golfklubb.',
     featuredCaption: 'Se flere bilder fra anlegget',
   },
   booking: {
+    sectionLabel: 'Smøla Golfklubb',
     title: 'Slik fungerer det',
-    description: 'Det skal være enkelt å bruke anlegget, enten du kommer for en runde, vil bli medlem eller ønsker å prøve golf for første gang.',
-    ctaLabel: 'Ta kontakt',
+    subtitle:
+      'Det skal være enkelt å bruke anlegget, enten du kommer for en runde, vil bli medlem eller ønsker å prøve golf for første gang.',
+    cta: {
+      label: 'Ta kontakt',
+      href: '#contact',
+    },
     steps: [
       {
         label: 'Skal du spille banen?',
-        detail: 'Banen er åpen hver dag. Se greenfee og medlemspriser før du drar, og bruk greenfeebua ved anlegget for praktisk informasjon.',
+        detail:
+          'Banen er åpen hver dag. Se greenfee og medlemspriser før du drar, og bruk greenfeebua ved anlegget for praktisk informasjon.',
       },
       {
         label: 'Vil du lære eller trene?',
-        detail: 'Klubben arrangerer kurs i løpet av sommeren ved nok påmeldte og har både driving range og utleie av golfsett.',
+        detail:
+          'Klubben arrangerer kurs i løpet av sommeren ved nok påmeldte og har både driving range og utleie av golfsett.',
       },
       {
         label: 'Vil du bli med i miljøet?',
-        detail: 'Det er faste sosiale runder, seniorgolf, seriespill og åpne turneringer gjennom sesongen.',
+        detail:
+          'Det er faste sosiale runder, seniorgolf, seriespill og åpne turneringer gjennom sesongen.',
       },
     ],
     notes: [
@@ -530,13 +439,16 @@ export const siteContent: SiteContent = {
     ],
   },
   partners: {
+    sectionLabel: 'Smøla Golfklubb',
     title: 'Våre partnere',
-    description: 'Smøla Golfklubb samarbeider med lokale og regionale aktører som bidrar til aktivitet og drift rundt klubben.',
+    subtitle:
+      'Smøla Golfklubb samarbeider med lokale og regionale aktører som bidrar til aktivitet og drift rundt klubben.',
   },
   contact: {
     sectionLabel: 'Smøla Golfklubb',
     title: 'Kontakt og beliggenhet',
-    subtitle: 'Dyrnes på Smøla, med kort vei ut til en naturskjønn bane ytterst i havgapet.',
+    subtitle:
+      'Dyrnes på Smøla, med kort vei ut til en naturskjønn bane ytterst i havgapet.',
     area: {
       label: 'Område',
       value: 'Dyrnes, Smøla',
@@ -552,14 +464,19 @@ export const siteContent: SiteContent = {
     mapCard: {
       eyebrow: 'Smøla / Dyrnes',
       title: 'Finn veien til banen',
-      description: 'Smøla Golfklubb ligger i Dyrnesdalen på Smøla, i lune omgivelser med enkel adkomst til anlegget.',
-      ctaLabel: 'Åpne i Google Maps',
-      ctaHref: 'https://www.google.com/maps/search/?api=1&query=Dyrnes%2C+Sm%C3%B8la%2C+Norway',
+      description:
+        'Smøla Golfklubb ligger i Dyrnesdalen på Smøla, i lune omgivelser med enkel adkomst til anlegget.',
+      cta: {
+        label: 'Åpne i Google Maps',
+        href: 'https://www.google.com/maps/search/?api=1&query=Dyrnes%2C+Sm%C3%B8la%2C+Norway',
+      },
     },
   },
   footer: {
-    ctaLabel: 'Se priser og info',
-    ctaHref: '#pricing',
+    cta: {
+      label: 'Se priser og info',
+      href: '#pricing',
+    },
     copyright: '© 2026 Smøla Golfklubb',
     description: '9-hulls golfbane og klubbmiljø i Dyrnes på Smøla.',
   },

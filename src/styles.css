@@ -120,8 +120,13 @@ button {
   gap: 1rem;
   width: 100%;
   margin-top: 0;
-  padding: 0;
+  padding: 0.45rem 0.55rem;
   color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(18, 26, 22, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
 }
 
 .hero-bar__brand,
@@ -133,6 +138,9 @@ button {
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 0.35rem;
 }
 
 .hero-bar__brand img {
@@ -141,13 +149,53 @@ button {
   height: 45px;
 }
 
+.hero-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.hero-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-nav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.93rem;
+  font-weight: 500;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.hero-nav__link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+}
+
 .hero-bar__link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
   white-space: nowrap;
   color: rgba(255, 255, 255, 0.85);
-  transition: opacity 200ms ease, color 200ms ease, transform 200ms ease;
+  border-radius: 999px;
+  transition: opacity 200ms ease, color 200ms ease, transform 200ms ease, background-color 200ms ease;
 }
 
 .hero-bar__link svg {
@@ -157,6 +205,7 @@ button {
 }
 
 .hero-bar__link:hover {
+  background: rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 1);
   opacity: 1;
   transform: scale(1.05);
@@ -218,6 +267,14 @@ button {
 
 .hero__facility-grid {
   margin-top: 0;
+}
+
+.section-anchor {
+  position: relative;
+  top: -96px;
+  visibility: hidden;
+  height: 0;
+  pointer-events: none;
 }
 
 .hero-teaser,
@@ -1787,11 +1844,31 @@ main > .section:nth-of-type(even):not(.section--accent):not(.reviews-section):no
 
   .hero-bar {
     gap: 0.8rem;
-    padding: 0;
+    padding: 0.55rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    border-radius: 28px;
   }
 
   .hero-bar__brand img {
     height: 37px;
+  }
+
+  .hero-bar__brand {
+    min-height: 40px;
+    padding: 0 0.2rem;
+  }
+
+  .hero-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .hero-nav__link {
+    min-height: 38px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.9rem;
   }
 
   .hero-bar__link svg {

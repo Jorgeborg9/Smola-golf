@@ -2,62 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SectionHeading } from './components/SectionHeading';
 import { PartnerLogoCard } from './components/PartnerLogoCard';
 import { ReviewCard } from './components/ReviewCard';
-import { siteContent } from './content/siteContent';
-import heroImage from './assets/images/Hero.jpg';
-import clubLogo from './assets/images/Smola logo.png';
-import courseMapImage from './assets/images/Banekart smola.png';
-import mapImage from './assets/images/Map.png';
-import courseImageOne from './assets/images/Course-1.png';
-import courseImageTwo from './assets/images/Course-2.png';
-import courseImageThree from './assets/images/Course-3.png';
-import courseImageFour from './assets/images/Course-4.png';
-import courseImageFive from './assets/images/Course-5.png';
-import sparebankLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.00.png';
-import statkraftLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.06.png';
-import holbergLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.10.png';
-import bautaLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.19.png';
-import boerietLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.24.png';
-import storyLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.26.png';
-import holmLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.31.png';
-import bettenLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.36.png';
-import einesLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.39.png';
-import promekLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.45.png';
-import smolaOppdrettLogo from './assets/images/Skjermbilde 2026-04-23 kl. 20.58.52.png';
-
-const gallery = [
-  {
-    src: courseImageOne,
-    alt: `Golfbane og landskap ved ${siteContent.businessName}`,
-  },
-  {
-    src: courseImageTwo,
-    alt: `Utsikt fra banen i Dyrnesdalen på ${siteContent.businessName}`,
-  },
-  {
-    src: courseImageThree,
-    alt: `Spillområde på ${siteContent.businessName}`,
-  },
-  {
-    src: courseImageFour,
-    alt: `Fairway og natur ved ${siteContent.businessName}`,
-  },
-  {
-    src: courseImageFive,
-    alt: `Golfmiljø ytterst i havgapet på ${siteContent.businessName}`,
-  },
-  {
-    src: courseMapImage,
-    alt: `Banekart for ${siteContent.businessName}`,
-  },
-];
-
-const newsImages = [
-  courseImageOne,
-  courseImageTwo,
-  courseImageThree,
-  courseImageFour,
-  courseImageFive,
-];
+import { defaultGolfClubData } from './data/clubs';
 
 function FacilityIcon({ icon }: { icon: 'range' | 'clubhouse' | 'access' }) {
   if (icon === 'range') {
@@ -87,25 +32,18 @@ function FacilityIcon({ icon }: { icon: 'range' | 'clubhouse' | 'access' }) {
   );
 }
 
-const partners = [
-  { name: 'SpareBank 1 Nordmøre', logo: sparebankLogo },
-  { name: 'Statkraft', logo: statkraftLogo },
-  { name: 'Holberg Shipping', logo: holbergLogo },
-  { name: 'Bauta Group', logo: bautaLogo },
-  { name: 'Bøteriet', logo: boerietLogo },
-  { name: 'Story Mote', logo: storyLogo },
-  { name: 'Brødrene Holm', logo: holmLogo },
-  { name: 'Betten Regnskap', logo: bettenLogo },
-  { name: 'Eines AS', logo: einesLogo },
-  { name: 'Promek', logo: promekLogo },
-  { name: 'Smøla Oppdrettservice AS', logo: smolaOppdrettLogo },
-];
-
 export default function App() {
   const reviewsStripRef = useRef<HTMLDivElement | null>(null);
   const [desktopReviews, setDesktopReviews] = useState(false);
   const [reviewStart, setReviewStart] = useState(0);
-  const businessName = siteContent.businessName;
+  const businessName = defaultGolfClubData.club.name;
+  const navigationItems = [
+    { label: 'Banen', href: '#banen' },
+    { label: 'Nyheter', href: '#nyheter' },
+    { label: 'Priser', href: '#priser' },
+    { label: 'Besøk', href: '#besok' },
+    { label: 'Kontakt', href: '#kontakt' },
+  ];
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1180px)');
@@ -118,12 +56,21 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    document.title = defaultGolfClubData.seo.title;
+
+    const descriptionTag = document.querySelector('meta[name="description"]');
+    if (descriptionTag) {
+      descriptionTag.setAttribute('content', defaultGolfClubData.seo.description);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!desktopReviews) {
       setReviewStart(0);
       return;
     }
 
-    const maxStart = Math.max(0, siteContent.reviews.cards.length - 4);
+    const maxStart = Math.max(0, defaultGolfClubData.reviews.cards.length - 4);
     const intervalId = window.setInterval(() => {
       setReviewStart((current) => (current >= maxStart ? 0 : current + 1));
     }, 3800);
@@ -153,13 +100,20 @@ export default function App() {
   return (
     <div className="page-shell">
       <header className="hero">
-        <div className="hero__media" style={{ backgroundImage: `url(${heroImage})` }} />
+        <div className="hero__media" style={{ backgroundImage: `url(${defaultGolfClubData.media.heroImage})` }} />
         <div className="container hero__inner">
           <div className="hero-bar" aria-label="Toppnavigasjon">
             <a className="hero-bar__brand" href="/">
-              <img src={clubLogo} alt={businessName} />
+              <img src={defaultGolfClubData.club.logo.src} alt={defaultGolfClubData.club.logo.alt} />
             </a>
-            <a className="hero-bar__link" href={siteContent.hero.socialHref}>
+            <nav className="hero-nav" aria-label="Seksjoner">
+              {navigationItems.map((item) => (
+                <a key={item.href} className="hero-nav__link" href={item.href}>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+            <a className="hero-bar__link" href={defaultGolfClubData.club.socialHref}>
               <span className="sr-only">Facebook</span>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path
@@ -171,21 +125,21 @@ export default function App() {
           </div>
 
           <div className="hero__content">
-            <p className="hero__eyebrow">{siteContent.hero.eyebrow}</p>
-            <h1>{siteContent.hero.title}</h1>
-            <p className="hero__text">{siteContent.hero.subtitle}</p>
+            <p className="hero__eyebrow">{defaultGolfClubData.hero.eyebrow}</p>
+            <h1>{defaultGolfClubData.hero.title}</h1>
+            <p className="hero__text">{defaultGolfClubData.hero.subtitle}</p>
 
             <div className="hero__actions">
-              <a className="button button--primary" href={siteContent.hero.primaryCta.href}>
-                {siteContent.hero.primaryCta.label}
+              <a className="button button--primary" href={defaultGolfClubData.hero.primaryCta.href}>
+                {defaultGolfClubData.hero.primaryCta.label}
               </a>
-              <a className="button button--ghost" href={siteContent.hero.secondaryCta.href}>
-                {siteContent.hero.secondaryCta.label}
+              <a className="button button--ghost" href={defaultGolfClubData.hero.secondaryCta.href}>
+                {defaultGolfClubData.hero.secondaryCta.label}
               </a>
             </div>
 
             <div className="hero__facility-grid">
-              {siteContent.hero.statusCards.map((card) => (
+              {defaultGolfClubData.hero.statusCards.map((card) => (
                 <article key={card.title} className="hero-teaser hero-teaser--course">
                   <p className="hero-teaser__label">{card.title}</p>
                   <div className="hero-teaser__status-row">
@@ -208,22 +162,23 @@ export default function App() {
           <div className="container">
             <div className="reviews-section__header">
               <SectionHeading
-                title={siteContent.reviews.title}
-                description={siteContent.reviews.subtitle}
+                sectionLabel={defaultGolfClubData.reviews.sectionLabel}
+                title={defaultGolfClubData.reviews.title}
+                description={defaultGolfClubData.reviews.subtitle}
               />
               <div className="reviews-section__meta">
                 <div className="reviews-summary" aria-label="Anmeldelser sammendrag">
-                  <p className="reviews-summary__label">{siteContent.reviews.summaryLabel}</p>
-                  <p className="reviews-summary__score">{siteContent.reviews.summaryScore}</p>
+                  <p className="reviews-summary__label">{defaultGolfClubData.reviews.summaryLabel}</p>
+                  <p className="reviews-summary__score">{defaultGolfClubData.reviews.summaryScore}</p>
                 </div>
-                <a className="reviews-section__link" href={siteContent.reviews.linkHref}>
-                  {siteContent.reviews.linkLabel}
+                <a className="reviews-section__link" href={defaultGolfClubData.reviews.linkHref}>
+                  {defaultGolfClubData.reviews.linkLabel}
                 </a>
               </div>
             </div>
 
             <div className="reviews-strip" aria-label="Anmeldelser" ref={reviewsStripRef}>
-              {siteContent.reviews.cards.map((review) => (
+              {defaultGolfClubData.reviews.cards.map((review) => (
                 <ReviewCard
                   key={`${review.name}-${review.quote}`}
                   rating={review.rating}
@@ -236,24 +191,24 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section section--compact about-section">
+        <section id="banen" className="section section--compact about-section">
           <div className="container">
             <div className="section-heading">
-              <p className="section-label">{siteContent.aboutCourse.sectionLabel}</p>
+              <p className="section-label">{defaultGolfClubData.aboutCourse.sectionLabel}</p>
             </div>
             <div className="about-split">
               <article className="content-card about-panel">
                 <div className="about-panel__content">
-                  <h3 className="about-panel__title">{siteContent.aboutCourse.title}</h3>
-                  <p className="about-panel__intro">{siteContent.aboutCourse.subtitle}</p>
+                  <h3 className="about-panel__title">{defaultGolfClubData.aboutCourse.title}</h3>
+                  <p className="about-panel__intro">{defaultGolfClubData.aboutCourse.subtitle}</p>
                 </div>
                 <div className="about-panel__copy">
-                  {siteContent.aboutCourse.body.map((paragraph) => (
+                  {defaultGolfClubData.aboutCourse.body.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
                 <div className="about-pills">
-                  {siteContent.aboutCourse.pills.map((pill) => (
+                  {defaultGolfClubData.aboutCourse.pills.map((pill) => (
                     <span key={pill} className="about-pill">
                       {pill}
                     </span>
@@ -262,10 +217,7 @@ export default function App() {
               </article>
 
               <article className="image-block image-block--tall about-image-card">
-                <img
-                  src={newsImages[siteContent.aboutCourse.imageIndex]}
-                  alt={siteContent.aboutCourse.title}
-                />
+                <img src={defaultGolfClubData.media.aboutImage.src} alt={defaultGolfClubData.media.aboutImage.alt} />
               </article>
             </div>
           </div>
@@ -274,11 +226,12 @@ export default function App() {
         <section className="section section--compact">
           <div className="container">
             <SectionHeading
-              title={siteContent.facilities.title}
-              description={siteContent.facilities.subtitle}
+              sectionLabel={defaultGolfClubData.facilities.sectionLabel}
+              title={defaultGolfClubData.facilities.title}
+              description={defaultGolfClubData.facilities.subtitle}
             />
             <div className="facility-feature-grid">
-              {siteContent.facilities.cards.map((card) => (
+              {defaultGolfClubData.facilities.cards.map((card) => (
                 <article key={card.title} className="content-card facility-feature-card">
                   <div className="facility-feature-card__top">
                     <span className="facility-feature-card__icon">
@@ -302,17 +255,18 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section section--compact news-section">
+        <section id="nyheter" className="section section--compact news-section">
           <div className="container">
             <SectionHeading
-              title={siteContent.news.title}
-              description={siteContent.news.subtitle}
+              sectionLabel={defaultGolfClubData.news.sectionLabel}
+              title={defaultGolfClubData.news.title}
+              description={defaultGolfClubData.news.subtitle}
             />
             <div className="news-grid">
-              {siteContent.news.items.map((item) => (
+              {defaultGolfClubData.news.items.map((item) => (
                 <article key={item.title} className="content-card news-card">
                   <div className="news-card__image">
-                    <img src={newsImages[item.imageIndex]} alt={item.title} />
+                    <img src={item.image.src} alt={item.image.alt} />
                   </div>
                   <div className="news-card__body">
                     <div className="news-card__meta">
@@ -331,14 +285,15 @@ export default function App() {
           </div>
         </section>
 
-        <section id="practical" className="section">
+        <section className="section">
+          <div id="practical" className="section-anchor" aria-hidden="true" />
           <div className="container">
             <div className="section-heading practical-section__heading">
-              <p className="section-label">{siteContent.playOrTrain.sectionLabel}</p>
-              <h2>{siteContent.playOrTrain.title}</h2>
+              <p className="section-label">{defaultGolfClubData.playOrTrain.sectionLabel}</p>
+              <h2>{defaultGolfClubData.playOrTrain.title}</h2>
             </div>
             <div className="facility-grid">
-              {siteContent.playOrTrain.cards.map((facility) => (
+              {defaultGolfClubData.playOrTrain.cards.map((facility) => (
                 <article
                   key={facility.title}
                   className={`facility-card facility-card--${facility.variant}`}
@@ -393,17 +348,19 @@ export default function App() {
           </div>
         </section>
 
-        <section id="pricing" className="section section--accent">
+        <section id="priser" className="section section--accent">
+          <div id="pricing" className="section-anchor" aria-hidden="true" />
           <div className="container">
             <SectionHeading
-              title={siteContent.pricing.title}
-              description={siteContent.pricing.subtitle}
+              sectionLabel={defaultGolfClubData.pricing.sectionLabel}
+              title={defaultGolfClubData.pricing.title}
+              description={defaultGolfClubData.pricing.subtitle}
             />
             <div className="pricing-layout">
               <article className="pricing-panel">
-                <p className="pricing-panel__title">{siteContent.pricing.play.title}</p>
+                <p className="pricing-panel__title">{defaultGolfClubData.pricing.play.title}</p>
                 <div className="pricing-table">
-                  {siteContent.pricing.play.items.map((item) => (
+                  {defaultGolfClubData.pricing.play.items.map((item) => (
                     <div key={item.label} className="pricing-row">
                       <div>
                         <p className="pricing-row__label">{item.label}</p>
@@ -413,13 +370,13 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <p className="pricing-panel__note">{siteContent.pricing.play.note}</p>
+                <p className="pricing-panel__note">{defaultGolfClubData.pricing.play.note}</p>
               </article>
 
               <article className="pricing-panel">
-                <p className="pricing-panel__title">{siteContent.pricing.membership.title}</p>
+                <p className="pricing-panel__title">{defaultGolfClubData.pricing.membership.title}</p>
                 <div className="pricing-table">
-                  {siteContent.pricing.membership.items.map((item) => (
+                  {defaultGolfClubData.pricing.membership.items.map((item) => (
                     <div key={item.label} className="pricing-row">
                       <div>
                         <p className="pricing-row__label">{item.label}</p>
@@ -430,9 +387,9 @@ export default function App() {
                   ))}
                 </div>
                 <div className="pricing-panel__info">
-                  <p className="pricing-panel__subtitle">{siteContent.pricing.membership.infoTitle}</p>
+                  <p className="pricing-panel__subtitle">{defaultGolfClubData.pricing.membership.infoTitle}</p>
                   <ul className="pricing-panel__info-list">
-                    {siteContent.pricing.membership.infoLines.map((line) => (
+                    {defaultGolfClubData.pricing.membership.infoLines.map((line) => (
                       <li key={line}>{line}</li>
                     ))}
                   </ul>
@@ -445,11 +402,12 @@ export default function App() {
         <section className="section section--compact gallery-section">
           <div className="container">
             <SectionHeading
-              title={siteContent.gallery.title}
-              description={siteContent.gallery.description}
+              sectionLabel={defaultGolfClubData.gallery.sectionLabel}
+              title={defaultGolfClubData.gallery.title}
+              description={defaultGolfClubData.gallery.subtitle}
             />
             <div className="gallery-strip" aria-label={`Bildegalleri fra ${businessName}`}>
-              {gallery.map((item, index) => (
+              {defaultGolfClubData.media.gallery.map((item, index) => (
                 <article
                   key={item.alt}
                   className={`gallery-card gallery-card--local${index === 0 ? ' gallery-card--featured' : ''}`}
@@ -457,7 +415,7 @@ export default function App() {
                   <img src={item.src} alt={item.alt} />
                   <div className="gallery-card__overlay">
                     <p className="gallery-card__caption">
-                      {index === 0 ? siteContent.gallery.featuredCaption : businessName}
+                      {index === 0 ? defaultGolfClubData.gallery.featuredCaption : businessName}
                     </p>
                   </div>
                 </article>
@@ -466,15 +424,17 @@ export default function App() {
           </div>
         </section>
 
-        <section id="booking" className="section">
+        <section id="besok" className="section">
+          <div id="booking" className="section-anchor" aria-hidden="true" />
           <div className="container split-grid reverse-on-mobile">
             <div className="content-card">
               <SectionHeading
-                title={siteContent.booking.title}
-                description={siteContent.booking.description}
+                sectionLabel={defaultGolfClubData.booking.sectionLabel}
+                title={defaultGolfClubData.booking.title}
+                description={defaultGolfClubData.booking.subtitle}
               />
               <div className="steps-list">
-                {siteContent.booking.steps.map((step, index) => (
+                {defaultGolfClubData.booking.steps.map((step, index) => (
                   <div key={step.label} className="step">
                     <span className="step__number">{index + 1}</span>
                     <div>
@@ -484,13 +444,13 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <a className="button button--primary" href="#contact">
-                {siteContent.booking.ctaLabel}
+              <a className="button button--primary" href={defaultGolfClubData.booking.cta.href}>
+                {defaultGolfClubData.booking.cta.label}
               </a>
             </div>
 
             <div className="notes-stack">
-              {siteContent.booking.notes.map((note) => (
+              {defaultGolfClubData.booking.notes.map((note) => (
                 <article key={note.title} className="content-card note-card">
                   <p className="note-card__title">{note.title}</p>
                   <p>{note.text}</p>
@@ -503,23 +463,26 @@ export default function App() {
         <section className="section partners-section">
           <div className="container">
             <SectionHeading
-              title={siteContent.partners.title}
-              description={siteContent.partners.description}
+              sectionLabel={defaultGolfClubData.partners.sectionLabel}
+              title={defaultGolfClubData.partners.title}
+              description={defaultGolfClubData.partners.subtitle}
             />
             <div className="partners-grid partners-grid--logos">
-              {partners.map((partner) => (
+              {defaultGolfClubData.media.partners.map((partner) => (
                 <PartnerLogoCard key={partner.name} name={partner.name} logo={partner.logo} />
               ))}
             </div>
           </div>
         </section>
 
-        <section className="section contact-section" id="contact">
+        <section className="section contact-section" id="kontakt">
+          <div id="contact" className="section-anchor" aria-hidden="true" />
           <div className="container split-grid">
             <div>
               <SectionHeading
-                title={siteContent.contact.title}
-                description={siteContent.contact.subtitle}
+                sectionLabel={defaultGolfClubData.contact.sectionLabel}
+                title={defaultGolfClubData.contact.title}
+                description={defaultGolfClubData.contact.subtitle}
               />
               <div className="contact-list">
                 <div className="contact-item">
@@ -530,8 +493,8 @@ export default function App() {
                     </svg>
                   </span>
                   <div>
-                    <p className="contact-item__label">{siteContent.contact.area.label}</p>
-                    <p className="contact-item__value">{siteContent.contact.area.value}</p>
+                    <p className="contact-item__label">{defaultGolfClubData.contact.area.label}</p>
+                    <p className="contact-item__value">{defaultGolfClubData.contact.area.value}</p>
                   </div>
                 </div>
 
@@ -542,8 +505,8 @@ export default function App() {
                     </svg>
                   </span>
                   <div>
-                    <p className="contact-item__label">{siteContent.contact.phone.label}</p>
-                    <p className="contact-item__value">{siteContent.contact.phone.value}</p>
+                    <p className="contact-item__label">{defaultGolfClubData.contact.phone.label}</p>
+                    <p className="contact-item__value">{defaultGolfClubData.contact.phone.value}</p>
                   </div>
                 </div>
 
@@ -555,8 +518,8 @@ export default function App() {
                     </svg>
                   </span>
                   <div>
-                    <p className="contact-item__label">{siteContent.contact.email.label}</p>
-                    <p className="contact-item__value">{siteContent.contact.email.value}</p>
+                    <p className="contact-item__label">{defaultGolfClubData.contact.email.label}</p>
+                    <p className="contact-item__value">{defaultGolfClubData.contact.email.value}</p>
                   </div>
                 </div>
               </div>
@@ -565,15 +528,15 @@ export default function App() {
               <div
                 className="map-placeholder"
                 style={{
-                  backgroundImage: `linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(24, 31, 28, 0.18)), url(${mapImage})`,
+                  backgroundImage: `linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(24, 31, 28, 0.18)), url(${defaultGolfClubData.media.mapImage})`,
                 }}
               >
                 <div className="map-placeholder__content">
-                  <p className="map-placeholder__eyebrow">{siteContent.contact.mapCard.eyebrow}</p>
-                  <p className="map-placeholder__title">{siteContent.contact.mapCard.title}</p>
-                  <p className="map-placeholder__text">{siteContent.contact.mapCard.description}</p>
-                  <a className="button button--primary map-placeholder__cta" href={siteContent.contact.mapCard.ctaHref}>
-                    {siteContent.contact.mapCard.ctaLabel}
+                  <p className="map-placeholder__eyebrow">{defaultGolfClubData.contact.mapCard.eyebrow}</p>
+                  <p className="map-placeholder__title">{defaultGolfClubData.contact.mapCard.title}</p>
+                  <p className="map-placeholder__text">{defaultGolfClubData.contact.mapCard.description}</p>
+                  <a className="button button--primary map-placeholder__cta" href={defaultGolfClubData.contact.mapCard.cta.href}>
+                    {defaultGolfClubData.contact.mapCard.cta.label}
                   </a>
                 </div>
               </div>
@@ -584,11 +547,11 @@ export default function App() {
 
       <footer className="footer">
         <div className="container footer__content">
-          <a className="footer__cta" href={siteContent.footer.ctaHref}>
-            {siteContent.footer.ctaLabel}
+          <a className="footer__cta" href={defaultGolfClubData.footer.cta.href}>
+            {defaultGolfClubData.footer.cta.label}
           </a>
-          <p>{siteContent.footer.copyright}</p>
-          <p>{siteContent.footer.description}</p>
+          <p>{defaultGolfClubData.footer.copyright}</p>
+          <p>{defaultGolfClubData.footer.description}</p>
         </div>
       </footer>
     </div>
