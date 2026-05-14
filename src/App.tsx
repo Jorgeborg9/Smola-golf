@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { SectionHeading } from './components/SectionHeading';
 import { PartnerLogoCard } from './components/PartnerLogoCard';
 import { ReviewCard } from './components/ReviewCard';
-import { defaultGolfClubData, getClubDataForPath, getClubSlugFromPath } from './data/clubs';
+import { getClubDataForPath, getClubSlugFromPath } from './data/clubs';
+import { strandaSubpages, type StrandaSubpageSlug } from './data/clubs/strandaSubpages';
 
 function FacilityIcon({ icon }: { icon: 'range' | 'clubhouse' | 'access' }) {
   if (icon === 'range') {
@@ -32,6 +33,37 @@ function FacilityIcon({ icon }: { icon: 'range' | 'clubhouse' | 'access' }) {
   );
 }
 
+function StrandaFeatureIcon({ icon }: { icon: 'course' | 'access' | 'community' }) {
+  if (icon === 'course') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 20V5.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="m7 6 8 2.2-3 3.1 3 3.2L7 17" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M5 20h4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (icon === 'access') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4.5" y="6" width="15" height="12" rx="2.4" stroke="currentColor" strokeWidth="1.7" />
+        <path d="M8 10h8M8 14h4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        <circle cx="16.5" cy="14" r="1.2" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="9" cy="10" r="2.1" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="15.5" cy="9" r="2.1" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M5.8 17.8c.6-2 2.2-3.3 4.1-3.3 2 0 3.6 1.2 4.2 3.3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M12.6 17.6c.5-1.7 1.9-2.8 3.6-2.8 1.4 0 2.6.8 3.2 2.1" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export default function App() {
   const reviewsStripRef = useRef<HTMLDivElement | null>(null);
   const [desktopReviews, setDesktopReviews] = useState(false);
@@ -39,15 +71,49 @@ export default function App() {
   const currentPath = typeof window === 'undefined' ? '/' : window.location.pathname;
   const clubData = getClubDataForPath(currentPath);
   const currentSlug = getClubSlugFromPath(currentPath);
+  const strandaSubpageMatch = currentPath.match(/^\/golf\/stranda\/(bane|golfsimulator)\/?$/);
+  const strandaSubpageSlug = strandaSubpageMatch?.[1] as StrandaSubpageSlug | undefined;
+  const strandaSubpage = strandaSubpageSlug ? strandaSubpages[strandaSubpageSlug] : null;
   const currentRoute = currentSlug ? `/golf/${currentSlug}` : '/';
   const businessName = clubData.club.name;
-  const navigationItems = [
-    { label: 'Banen', href: '#banen' },
-    { label: 'Nyheter', href: '#nyheter' },
-    { label: 'Priser', href: '#priser' },
-    { label: 'Besøk', href: '#besok' },
-    { label: 'Kontakt', href: '#kontakt' },
+  const currentHash = typeof window === 'undefined' ? '' : window.location.hash;
+  const strandaNavigationItems = [
+    { label: 'Klubben', href: '/golf/stranda' },
+    { label: 'Bane', href: '/golf/stranda/bane' },
+    { label: 'Golfsimulator', href: '/golf/stranda/golfsimulator' },
+    { label: 'Nyheter', href: '/golf/stranda#nyheter' },
+    { label: 'Priser', href: '/golf/stranda#priser' },
+    { label: 'Kontakt', href: '/golf/stranda#kontakt' },
   ];
+  const navigationItems =
+    currentSlug === 'stranda'
+      ? strandaNavigationItems
+      : [
+          { label: 'Banen', href: '#banen' },
+          { label: 'Nyheter', href: '#nyheter' },
+          { label: 'Priser', href: '#priser' },
+          { label: 'Besøk', href: '#besok' },
+          { label: 'Kontakt', href: '#kontakt' },
+        ];
+
+  function isActiveNavLink(href: string) {
+    if (href.startsWith('/')) {
+      const [path, hash = ''] = href.split('#');
+      const targetHash = hash ? `#${hash}` : '';
+
+      if (path !== currentPath) {
+        return false;
+      }
+
+      if (!targetHash) {
+        return currentHash === '';
+      }
+
+      return currentHash === targetHash;
+    }
+
+    return currentHash === href;
+  }
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1180px)');
@@ -60,13 +126,13 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.title = clubData.seo.title;
+    document.title = strandaSubpage?.seoTitle ?? clubData.seo.title;
 
     const descriptionTag = document.querySelector('meta[name="description"]');
     if (descriptionTag) {
-      descriptionTag.setAttribute('content', clubData.seo.description);
+      descriptionTag.setAttribute('content', strandaSubpage?.seoDescription ?? clubData.seo.description);
     }
-  }, [clubData]);
+  }, [clubData, strandaSubpage]);
 
   useEffect(() => {
     if (!desktopReviews) {
@@ -101,10 +167,245 @@ export default function App() {
     }
   }, [desktopReviews, reviewStart]);
 
+  const pageShellClassName = currentSlug
+    ? `page-shell page-shell--${currentSlug}${strandaSubpageSlug ? ` page-shell--${strandaSubpageSlug}` : ''}`
+    : 'page-shell';
+  const heroContent = strandaSubpage?.hero ?? clubData.hero;
+  const heroImage = strandaSubpage?.hero.image ?? clubData.media.heroImage;
+  const showStrandaMediaSection =
+    !!strandaSubpage &&
+    (strandaSubpage.mediaSection.sectionLabel.trim().length > 0 ||
+      strandaSubpage.mediaSection.title.trim().length > 0 ||
+      strandaSubpage.mediaSection.subtitle.trim().length > 0 ||
+      strandaSubpage.mediaSection.caption.trim().length > 0 ||
+      strandaSubpage.mediaSection.facts.length > 0);
+  const mergeStrandaSimulatorCards = strandaSubpageSlug === 'golfsimulator';
+
+  function renderStrandaSubpage() {
+    if (!strandaSubpage) {
+      return null;
+    }
+
+    return (
+      <main>
+        <section className="section section--compact subpage-intro-section">
+          <div className="container">
+            <SectionHeading
+              sectionLabel={strandaSubpage.intro.sectionLabel}
+              title={strandaSubpage.intro.title}
+              description={strandaSubpage.intro.subtitle}
+            />
+            {mergeStrandaSimulatorCards ? (
+              <div className="split-grid subpage-simulator-layout">
+                <article className="content-card subpage-simulator-main-card">
+                  <h3 className="about-panel__title">{strandaSubpage.intro.cardTitle}</h3>
+                  <p className="about-panel__intro">{strandaSubpage.intro.cardBody}</p>
+                  <div className="subpage-simulator-highlights">
+                    {strandaSubpage.intro.features.map((feature) => (
+                      <div key={feature.title} className="subpage-simulator-highlight">
+                        <span className="subpage-simulator-highlight__icon" aria-hidden="true">
+                          <StrandaFeatureIcon icon={feature.icon} />
+                        </span>
+                        <p className="subpage-simulator-highlight__text">{feature.title}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="about-pills">
+                    {strandaSubpage.intro.chips?.map((chip) => (
+                      <span key={chip} className="about-pill">
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+                {strandaSubpage.detailSection.cards[0] ? (
+                  <article className="content-card subpage-simulator-practical-card">
+                    <h3 className="subpage-detail-card__title">{strandaSubpage.detailSection.cards[0].title}</h3>
+                    <div className="subpage-simulator-practical-rows">
+                      {strandaSubpage.detailSection.cards[0].rows?.map((row) => (
+                        <div key={row.label} className="subpage-simulator-practical-row">
+                          <span className="subpage-simulator-practical-row__label">{row.label}</span>
+                          <span className="subpage-simulator-practical-row__value">{row.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                    {strandaSubpage.detailSection.cards[0].cta ? (
+                      <a
+                        className="button button--primary subpage-simulator-practical-card__cta"
+                        href={strandaSubpage.detailSection.cards[0].cta.href}
+                      >
+                        {strandaSubpage.detailSection.cards[0].cta.label}
+                      </a>
+                    ) : null}
+                  </article>
+                ) : null}
+              </div>
+            ) : (
+              <div className="subpage-feature-grid">
+                {strandaSubpage.intro.features.map((feature) => (
+                  <article key={feature.title} className="content-card subpage-feature-card">
+                    <span className="subpage-feature-card__icon" aria-hidden="true">
+                      <StrandaFeatureIcon icon={feature.icon} />
+                    </span>
+                    <p className="about-panel__eyebrow">{feature.eyebrow}</p>
+                    <h3 className="subpage-feature-card__title">{feature.title}</h3>
+                    <p className="subpage-feature-card__text">{feature.text}</p>
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="section section--compact about-section">
+          <div className="container">
+            <div className="about-split">
+              <article className="content-card about-panel">
+                <div className="about-panel__content">
+                  <h3 className="about-panel__title">{strandaSubpage.narrative.title}</h3>
+                </div>
+                <div className="about-panel__copy">
+                  {strandaSubpage.narrative.body.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+                <div className="about-pills">
+                  {strandaSubpage.narrative.pills.map((pill) => (
+                    <span key={pill} className="about-pill">
+                      {pill}
+                    </span>
+                  ))}
+                </div>
+              </article>
+
+              <article className="image-block image-block--tall about-image-card">
+                <img src={strandaSubpage.narrative.image.src} alt={strandaSubpage.narrative.image.alt} />
+              </article>
+            </div>
+          </div>
+        </section>
+
+        {!mergeStrandaSimulatorCards ? (
+          <section className="section section--compact">
+            <div className="container">
+              <SectionHeading
+                sectionLabel={strandaSubpage.detailSection.sectionLabel}
+                title={strandaSubpage.detailSection.title}
+                description={strandaSubpage.detailSection.subtitle}
+              />
+              <div className="subpage-detail-grid">
+                {strandaSubpage.detailSection.cards.map((card) => (
+                  <article key={card.title} className="content-card subpage-detail-card">
+                    {card.icon ? (
+                      <span className="subpage-detail-card__icon" aria-hidden="true">
+                        <StrandaFeatureIcon icon={card.icon} />
+                      </span>
+                    ) : null}
+                    <h3 className="subpage-detail-card__title">{card.title}</h3>
+                    {card.text ? <p className="subpage-detail-card__text">{card.text}</p> : null}
+                    <ul className="subpage-detail-card__list">
+                      {card.bullets.map((point) => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                    {card.chips?.length ? (
+                      <div className="subpage-detail-card__chips">
+                        {card.chips.map((chip) => (
+                          <span key={chip} className="about-pill">
+                            {chip}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {showStrandaMediaSection ? (
+          <section className="section section--compact subpage-media-section">
+            <div className="container split-grid">
+              <article className="image-block image-block--tall subpage-media-card">
+                <img src={strandaSubpage.mediaSection.image.src} alt={strandaSubpage.mediaSection.image.alt} />
+              </article>
+              <article className="content-card subpage-media-copy">
+                <SectionHeading
+                  sectionLabel={strandaSubpage.mediaSection.sectionLabel}
+                  title={strandaSubpage.mediaSection.title}
+                  description={strandaSubpage.mediaSection.subtitle}
+                />
+                {strandaSubpage.mediaSection.caption ? (
+                  <p className="subpage-media-copy__caption">{strandaSubpage.mediaSection.caption}</p>
+                ) : null}
+                {strandaSubpage.mediaSection.facts.length ? (
+                  <ul className="subpage-media-copy__facts">
+                    {strandaSubpage.mediaSection.facts.map((fact) => (
+                      <li key={fact}>{fact}</li>
+                    ))}
+                  </ul>
+                ) : null}
+              </article>
+            </div>
+          </section>
+        ) : null}
+
+        {strandaSubpage.pricingSection ? (
+          <section id="simulator-priser" className="section section--accent">
+            <div className="container">
+              <SectionHeading
+                sectionLabel={strandaSubpage.pricingSection.sectionLabel}
+                title={strandaSubpage.pricingSection.title}
+                description={strandaSubpage.pricingSection.subtitle}
+              />
+              <div className="subpage-pricing-grid">
+                {strandaSubpage.pricingSection.cards.map((card) => (
+                  <article key={card.title} className="pricing-panel">
+                    <p className="pricing-panel__title">{card.title}</p>
+                    <p className="subpage-pricing-card__intro">{card.intro}</p>
+                    <div className="pricing-table">
+                      {card.items.map((item) => (
+                        <div key={item.label} className="pricing-row">
+                          <p className="pricing-row__label">{item.label}</p>
+                          <p className="pricing-row__price">{item.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                    {card.note ? <p className="pricing-panel__note">{card.note}</p> : null}
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        <section className="section section--compact subpage-cta-section">
+          <div className="container">
+            <article className="content-card subpage-cta-card">
+              <SectionHeading
+                sectionLabel={strandaSubpage.ctaSection.sectionLabel}
+                title={strandaSubpage.ctaSection.title}
+                description={strandaSubpage.ctaSection.text}
+              />
+              <div className="subpage-cta-card__actions">
+                {strandaSubpage.ctaSection.links.map((link) => (
+                  <a key={link.href} className="button button--primary" href={link.href}>
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
-    <div className="page-shell">
+    <div className={pageShellClassName}>
       <header className="hero">
-        <div className="hero__media" style={{ backgroundImage: `url(${clubData.media.heroImage})` }} />
+        <div className="hero__media" style={{ backgroundImage: `url(${heroImage})` }} />
         <div className="container hero__inner">
           <div className="hero-bar" aria-label="Toppnavigasjon">
             <a className="hero-bar__brand" href={currentRoute}>
@@ -116,7 +417,11 @@ export default function App() {
             </a>
             <nav className="hero-nav" aria-label="Seksjoner">
               {navigationItems.map((item) => (
-                <a key={item.href} className="hero-nav__link" href={item.href}>
+                <a
+                  key={item.href}
+                  className={`hero-nav__link${isActiveNavLink(item.href) ? ' hero-nav__link--active' : ''}`}
+                  href={item.href}
+                >
                   {item.label}
                 </a>
               ))}
@@ -133,38 +438,49 @@ export default function App() {
           </div>
 
           <div className="hero__content">
-            <p className="hero__eyebrow">{clubData.hero.eyebrow}</p>
-            <h1>{clubData.hero.title}</h1>
-            <p className="hero__text">{clubData.hero.subtitle}</p>
+            <p className="hero__eyebrow">{heroContent.eyebrow}</p>
+            <h1>{heroContent.title}</h1>
+            <p className="hero__text">{heroContent.subtitle}</p>
 
-            <div className="hero__actions">
-              <a className="button button--primary" href={clubData.hero.primaryCta.href}>
-                {clubData.hero.primaryCta.label}
-              </a>
-              <a className="button button--ghost" href={clubData.hero.secondaryCta.href}>
-                {clubData.hero.secondaryCta.label}
-              </a>
-            </div>
+            {heroContent.primaryCta.label.trim() || heroContent.secondaryCta.label.trim() ? (
+              <div className="hero__actions">
+                {heroContent.primaryCta.label.trim() ? (
+                  <a className="button button--primary" href={heroContent.primaryCta.href}>
+                    {heroContent.primaryCta.label}
+                  </a>
+                ) : null}
+                {heroContent.secondaryCta.label.trim() ? (
+                  <a className="button button--ghost" href={heroContent.secondaryCta.href}>
+                    {heroContent.secondaryCta.label}
+                  </a>
+                ) : null}
+              </div>
+            ) : null}
 
-            <div className="hero__facility-grid">
-              {clubData.hero.statusCards.map((card) => (
-                <article key={card.title} className="hero-teaser hero-teaser--course">
-                  <p className="hero-teaser__label">{card.title}</p>
-                  <div className="hero-teaser__status-row">
-                    <span
-                      className={`facility-card__status-dot facility-card__status-dot--${card.status}`}
-                      aria-hidden="true"
-                    />
-                    <p className="hero-teaser__status">{card.statusLabel}</p>
-                  </div>
-                  <p className="hero-teaser__detail">{card.detail}</p>
-                </article>
-              ))}
-            </div>
+            {heroContent.statusCards.length ? (
+              <div className="hero__facility-grid">
+                {heroContent.statusCards.map((card) => (
+                  <article key={card.title} className="hero-teaser hero-teaser--course">
+                    <p className="hero-teaser__label">{card.title}</p>
+                    <div className="hero-teaser__status-row">
+                      <span
+                        className={`facility-card__status-dot facility-card__status-dot--${card.status}`}
+                        aria-hidden="true"
+                      />
+                      <p className="hero-teaser__status">{card.statusLabel}</p>
+                    </div>
+                    <p className="hero-teaser__detail">{card.detail}</p>
+                  </article>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       </header>
 
+      {strandaSubpage ? (
+        renderStrandaSubpage()
+      ) : (
       <main>
         <section className="section section--compact reviews-section">
           <div className="container">
@@ -552,6 +868,7 @@ export default function App() {
           </div>
         </section>
       </main>
+      )}
 
       <footer className="footer">
         <div className="container footer__content">

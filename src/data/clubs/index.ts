@@ -1,16 +1,18 @@
 import { bleikClubData } from './bleik';
 import { exampleClubData } from './example';
 import { smolaClubData } from './smola';
+import { strandaClubData } from './stranda';
 import { sunndalClubData } from './sunndal';
 import { vanylvenClubData } from './vanylven';
 
 export type { GolfClubData } from './types';
-export { bleikClubData, exampleClubData, smolaClubData, sunndalClubData, vanylvenClubData };
+export { bleikClubData, exampleClubData, smolaClubData, strandaClubData, sunndalClubData, vanylvenClubData };
 
 // New golf club demos can be created by copying `smola.ts` or `example.ts` and replacing the content.
 export const availableClubData = {
   bleik: bleikClubData,
   smola: smolaClubData,
+  stranda: strandaClubData,
   sunndal: sunndalClubData,
   example: exampleClubData,
   vanylven: vanylvenClubData,
@@ -21,7 +23,7 @@ export type ClubSlug = keyof typeof availableClubData;
 export const defaultGolfClubData = smolaClubData;
 
 export function getClubSlugFromPath(pathname: string): ClubSlug | null {
-  const match = pathname.match(/^\/golf\/([^/]+)\/?$/);
+  const match = pathname.match(/^\/golf\/([^/]+)(?:\/.*)?\/?$/);
   if (!match) {
     return null;
   }
